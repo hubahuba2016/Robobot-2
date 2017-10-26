@@ -1,0 +1,572 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"s",
+				"screen_name"
+			],
+			[
+				"us",
+				"users"
+			],
+			[
+				"user",
+				"users"
+			],
+			[
+				"use",
+				"user_id"
+			],
+			[
+				"get",
+				"getAttribute"
+			],
+			[
+				"sce",
+				"screen_name"
+			],
+			[
+				"u",
+				"user_id"
+			],
+			[
+				"re",
+				"responseText"
+			],
+			[
+				"st",
+				"style"
+			],
+			[
+				"er",
+				"errorThrown"
+			],
+			[
+				"x",
+				"XMLHttpRequest"
+			],
+			[
+				"g",
+				"get_json"
+			],
+			[
+				"av",
+				"average_score_helper"
+			],
+			[
+				"i",
+				"is_user_bot"
+			],
+			[
+				"ret",
+				"return"
+			],
+			[
+				"p",
+				"party"
+			],
+			[
+				"se",
+				"sessionAttributes"
+			],
+			[
+				"nu",
+				"numbers_optional"
+			],
+			[
+				"ou",
+				"output_pdf_name"
+			],
+			[
+				"pdf",
+				"pdf_merger"
+			],
+			[
+				"file",
+				"file_readers"
+			],
+			[
+				"o",
+				"output_pdf_name"
+			],
+			[
+				"out",
+				"output_pdf"
+			],
+			[
+				"add",
+				"addresses"
+			],
+			[
+				"sy",
+				"synchronized"
+			],
+			[
+				"all",
+				"isAllRecordsRead"
+			],
+			[
+				"is",
+				"isReady"
+			],
+			[
+				"toa",
+				"totalReached"
+			],
+			[
+				"pri",
+				"println"
+			],
+			[
+				"total",
+				"totalReached"
+			],
+			[
+				"my",
+				"myMonthWideSales"
+			],
+			[
+				"store",
+				"myStoreWideSales"
+			],
+			[
+				"read",
+				"readRecord"
+			],
+			[
+				"po",
+				"producers"
+			],
+			[
+				"pr",
+				"println"
+			],
+			[
+				"sal",
+				"saleAmount"
+			],
+			[
+				"m",
+				"month"
+			],
+			[
+				"random",
+				"randomInt"
+			],
+			[
+				"sale",
+				"sale_amount"
+			],
+			[
+				"pro",
+				"produceCount"
+			],
+			[
+				"gener",
+				"generateRandomFloat"
+			],
+			[
+				"gen",
+				"generateRandomInt"
+			],
+			[
+				"new",
+				"newRecord"
+			],
+			[
+				"sa",
+				"saleAmount"
+			],
+			[
+				"ce",
+				"createRecord"
+			],
+			[
+				"t",
+				"t_id"
+			],
+			[
+				"in",
+				"include"
+			],
+			[
+				"dat",
+				"dataLength"
+			],
+			[
+				"data",
+				"dataString"
+			],
+			[
+				"da",
+				"dataString"
+			],
+			[
+				"diff",
+				"diffTemp"
+			],
+			[
+				"pa",
+				"pAUsage"
+			],
+			[
+				"dif",
+				"diffCapacity"
+			],
+			[
+				"pA",
+				"pAUsage"
+			],
+			[
+				"union",
+				"unionUsage"
+			],
+			[
+				"un",
+				"unionCapacity"
+			],
+			[
+				"CS",
+				"CSet_Equals"
+			],
+			[
+				"CS_",
+				"CSet_Equals"
+			],
+			[
+				"CSEt",
+				"CSet_Copy"
+			],
+			[
+				"D",
+				"Data"
+			],
+			[
+				"U",
+				"Usage"
+			],
+			[
+				"CSet_I",
+				"CSet_Init"
+			],
+			[
+				"CSet",
+				"CSet_Init"
+			],
+			[
+				"CSet_in",
+				"CSet_Insert"
+			],
+			[
+				"C",
+				"Capacity"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 147.0,
+		"last_filter": "copy",
+		"selected_items":
+		[
+			[
+				"copy",
+				"SublimeHighlight: copy to clipboard as RTF"
+			],
+			[
+				"ssjavasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"sub",
+				"SublimeHighlight: copy to clipboard as HTML"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"add re",
+				"Package Control: Add Repository"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/andydu/Desktop/pivotpivot/extension_js/js/background.js",
+		"/Users/andydu/Desktop/pivotpivot/extension_js/js/content.js",
+		"/Users/andydu/Desktop/pivotpivot/server_py/hello.py",
+		"/Users/andydu/Desktop/pivotpivot/extension_js/manifest.json",
+		"/Users/andydu/Documents/Group7-Alexa_Restaurant_Host/src/index.js",
+		"/Users/andydu/Documents/Group7-Alexa_Restaurant_Host/src/src 2/index.js",
+		"/Users/andydu/Documents/Group7-Alexa_Restaurant_Host/src/src/index.js",
+		"/Users/andydu/Desktop/CS 4984 Spotlight-Team5-DevilsAdvocate/LinkTree/linktree.js",
+		"/Users/andydu/Desktop/CS 4984 Spotlight-Team5-DevilsAdvocate/LinkTree/list_to_tree.js",
+		"/Users/andydu/Desktop/CS 4984 Spotlight-Team5-DevilsAdvocate/LinkTree/get_sub_links.py",
+		"/Users/andydu/Desktop/CS 4984 Spotlight-Team5-DevilsAdvocate/LinkTree/manifest.json",
+		"/Users/andydu/Desktop/CS 4984 Spotlight-Team5-DevilsAdvocate/ExtensionPractice/textChange.js",
+		"/Volumes/NO NAME/Files/CS 2304 JS/project4/node_modules/client/index.js",
+		"/Volumes/NO NAME/Files/CS 2304 JS/project4/server/index.js",
+		"/Volumes/NO NAME/Files/CS 2304 JS/project4/server/twitter.js",
+		"/Users/andydu/Desktop/pivotpivot/hello.py",
+		"/Users/andydu/Desktop/task_list/djangorest/api/models.py",
+		"/Users/andydu/Desktop/Practicum/bundle.js",
+		"/Users/andydu/Desktop/task_list/djangorest/api/tests.py",
+		"/Users/andydu/Library/Application Support/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/Users/andydu/Desktop/task_list/djangorest/djangorest/settings.py",
+		"/Users/andydu/Desktop/task_list/djangorest/manage.py",
+		"/Users/andydu/Desktop/todo_list/djangorest/djangorest/settings.py",
+		"/Users/andydu/Desktop/social_honeypot_icwsm_2011/content_polluters_followings.txt",
+		"/Users/andydu/Desktop/social_honeypot_icwsm_2011/legitimate_users_followings.txt",
+		"/Users/andydu/Desktop/varol-2017.dat",
+		"/Users/andydu/Desktop/cresci-2015.csv/FSF.csv/tweets.csv",
+		"/Users/andydu/Desktop/cresci-2015.csv/READ.ME",
+		"/Users/andydu/Desktop/alexa-demo-master/speech-assets/intent-schema.json",
+		"/Users/andydu/Desktop/saddotcom.py",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/a57e4534-e9df-4a65-b059-5a560d21ec10/home/ugrads/majors/apdu/CS 3304/Part2A_apdu.py",
+		"/Users/andydu/Desktop/Practicum/popup.html",
+		"/Users/andydu/Desktop/Practicum/test.js",
+		"/Users/andydu/Desktop/Practicum/node-botometer-master/index.js",
+		"/Users/andydu/Desktop/Practicum/node-botometer-master/test.js",
+		"/Users/andydu/Desktop/Practicum/custom.css",
+		"/Users/andydu/Desktop/Fall_17/Projects/website/index.html",
+		"/Users/andydu/Desktop/Practicum/popup.js",
+		"/Users/andydu/Desktop/Test Plugin/js/popup.js",
+		"/Users/andydu/Desktop/Test Plugin/popup.js",
+		"/Users/andydu/Desktop/Test Plugin/manifest.json",
+		"/Users/andydu/Desktop/Test Plugin/html/popup.html",
+		"/Users/andydu/Desktop/Test Plugin/manifest 2.json",
+		"/Users/andydu/Desktop/Test Plugin/popup.html",
+		"/Users/andydu/Desktop/Chrome-Extension-Template-master/manifest.json",
+		"/Users/andydu/Desktop/Chrome-Extension-Template-master/README.md",
+		"/Users/andydu/Desktop/Practicum/manifest.json",
+		"/Users/andydu/Desktop/Practicum/tweepy-master/README.md",
+		"/Users/andydu/Desktop/warm-up homework/optionA_data/neg_examples_NegSentiment.txt",
+		"/Users/andydu/Desktop/warm-up homework/optionA_data/pos_examples_PosSentiment.txt",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Manager.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/VMEMMAN.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Manager.class",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Buffer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Buffer.class",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Producer.class",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Statistics.class",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/e8ee658a-f001-4566-8144-6d3a42d29bcb/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Statistics.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Record.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Buffer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/f0d12ea4-b8b5-40d9-b2db-fe5040bb5a54/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/VMEMMAN.java",
+		"/Users/andydu/Desktop/apdu/src/Quicksorter.java",
+		"/Users/andydu/Desktop/apdu/src/CheckFile.java",
+		"/Users/andydu/Desktop/apdu/src/BufferPool.java",
+		"/Users/andydu/Desktop/N = 1 -> 1",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/748bd59f-83b6-45d5-876a-f3ef75169aa2/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Manager.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/748bd59f-83b6-45d5-876a-f3ef75169aa2/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/748bd59f-83b6-45d5-876a-f3ef75169aa2/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Producer.class",
+		"/Users/andydu/Desktop/djangorest/djangorest/api/tests.py",
+		"/Users/andydu/Desktop/djangorest/djangorest/api/admin.py",
+		"/Users/andydu/Desktop/djangorest/djangorest/djangorest/settings.py",
+		"/Users/andydu/Desktop/django_rest_api/DjangoRest/requirements.txt",
+		"/Users/andydu/Desktop/django_rest_api/DjangoRest/DjangoRest/settings.py",
+		"/Users/andydu/Desktop/django_rest_api/DjangoRest/manage.py",
+		"/Users/andydu/Desktop/todo_list/TodoList/TodoList/settings.py",
+		"/Users/andydu/Desktop/8-30_riddle.c",
+		"/Users/andydu/Desktop/todo_list/TodoList/pip-selfcheck.json",
+		"/Users/andydu/Desktop/Django notes",
+		"/Users/andydu/Desktop/pdf_merger/PdfMerger.py",
+		"/Users/andydu/Desktop/fb.java",
+		"/Users/andydu/requirements.txt",
+		"/Users/andydu/Desktop/pdf_merger/test.py",
+		"/Users/andydu/Desktop/test.py",
+		"/Users/andydu/Desktop/Projects/Django/firstdjango/inventory/models.py",
+		"/Users/andydu/Desktop/Projects/Django/firstdjango/firstdjango/settings.py",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/cf00a9da-7214-4199-a9af-89fa03b8c65f/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Report.txt",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/cf00a9da-7214-4199-a9af-89fa03b8c65f/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/README",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/cf00a9da-7214-4199-a9af-89fa03b8c65f/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/README",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/cf00a9da-7214-4199-a9af-89fa03b8c65f/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/Buffer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/d46cbde9-0545-4b19-9bab-7497dfee74f6/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Report.txt",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/d46cbde9-0545-4b19-9bab-7497dfee74f6/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/README",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/d46cbde9-0545-4b19-9bab-7497dfee74f6/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/README",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/d46cbde9-0545-4b19-9bab-7497dfee74f6/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Manager.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/d46cbde9-0545-4b19-9bab-7497dfee74f6/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/c175f8ff-57f6-4169-b339-ee8683313f2b/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Buffer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/c175f8ff-57f6-4169-b339-ee8683313f2b/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/c175f8ff-57f6-4169-b339-ee8683313f2b/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/c175f8ff-57f6-4169-b339-ee8683313f2b/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/c175f8ff-57f6-4169-b339-ee8683313f2b/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Record.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/c175f8ff-57f6-4169-b339-ee8683313f2b/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Manager.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/bf33e3ac-db50-4141-b60f-d4b3b0cb17a3/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/Manager.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/bf33e3ac-db50-4141-b60f-d4b3b0cb17a3/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/VMEMMAN.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/7e540fce-c605-4986-a8d8-bc63c61b9308/home/ugrads/majors/apdu/CS471PROJECT/VMEMMAN/VMEMMAN.java",
+		"/Users/andydu/Documents/p2v2.c",
+		"/Users/andydu/Documents/pagerep.java",
+		"/Users/andydu/Documents/cs471p2.c",
+		"/Users/andydu/Documents/PRODCONS Report",
+		"/Users/andydu/Documents/cs471p2",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/19a79962-bfc1-4d3c-b750-d28eb7c77310/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Statistics.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/19a79962-bfc1-4d3c-b750-d28eb7c77310/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/19a79962-bfc1-4d3c-b750-d28eb7c77310/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Buffer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/19a79962-bfc1-4d3c-b750-d28eb7c77310/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/19a79962-bfc1-4d3c-b750-d28eb7c77310/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/97bdad36-fe80-4482-ac1b-e64a3fb92baf/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/97bdad36-fe80-4482-ac1b-e64a3fb92baf/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/75b8f9f3-2bfd-4ec1-846b-d13ff2c14053/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/75b8f9f3-2bfd-4ec1-846b-d13ff2c14053/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/75b8f9f3-2bfd-4ec1-846b-d13ff2c14053/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/PRODCONS.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/feb57387-6366-4580-913d-0a3070ce18cf/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Record.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/feb57387-6366-4580-913d-0a3070ce18cf/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Consumer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/feb57387-6366-4580-913d-0a3070ce18cf/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Producer.java",
+		"/private/var/folders/89/t45s1qcn1pb6p0p_jsg30qq00000gn/T/feb57387-6366-4580-913d-0a3070ce18cf/home/ugrads/majors/apdu/CS471PROJECT/PRODCONS/JAVA/Buffer.java"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "content.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
