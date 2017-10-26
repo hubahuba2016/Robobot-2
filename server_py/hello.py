@@ -24,14 +24,13 @@ api = tweepy.API(auth)
 def check_post_helper(id):
     # load post obj by id
     postObj = api.get_status(id)
-    
-    
+
     # load retweeters
     users = []
     retweeters = api.retweets(postObj.id)
     for rtrs in retweeters:
         users.append('@' + rtrs.user.screen_name)
-        
+
     # run retweeters through botometer
     results = list(bom.check_accounts_in(users))
     return results[:5]
@@ -43,7 +42,7 @@ def is_user_bot_helper(screen_name):
     print('\n\n\n\n\n\n\n')
     user = '@' + screen_name
     result = bom.check_account(user)
-    
+
     if (result['scores']['english'] > 0.4):
         return 'bot'
     else:
@@ -55,9 +54,9 @@ def average_score_helper(user):
     for follower in user.followers():
         accounts.append('@' + follower.screen_name)
     results = list(bom.check_accounts_in(accounts))
-    
+
     # Calculate average score
-    index = 0 
+    index = 0
     score = 0
     for index in range(len(results)):
         score = score + results[index][1]['scores']['english']
@@ -70,14 +69,18 @@ CORS(app, support_credentials=True)
 # App routing
 @app.route("/check_post", methods=['GET', 'POST'])
 @cross_origin(support_credentials=True)
+
 def check_post():
     bots = check_post_helper(request.get_json())
-    scores = []
+    # scores = []
+    count = 0
 
     for bot in bots:
-        scores.append(bot[1]['scores']['english'])
+        # scores.append(bot[1]['scores']['english'])
+        if bot[1]['scores']['english'] > 0.4:
+            count = count + 1
 
-    return scores
+    return str(count)
 
 @app.route("/is_user_bot", methods=['GET', 'POST'])
 @cross_origin(support_credentials=True)
