@@ -1,0 +1,39 @@
+{
+	"manifest_version": 2,
+
+	"name": "SpotBot",
+	"description": "Midterm implementation",
+	"version": "0",
+
+	"background": {
+		"scripts": [
+			"js/jquery-3.2.1.min.js",
+			"js/background.js"
+		]
+	},
+
+	"content_scripts": [
+		{
+			"js": [
+				"js/jquery-3.2.1.min.js",
+				"js/content.js"
+			],
+			"matches": [
+				"http://twitter.com/*",
+				"https://twitter.com/*"
+			],
+			"run_at": "document_end"
+		}
+	],
+
+	"icons": { "16": "img/icon16.png",
+           "48": "img/icon48.png",
+          "128": "img/icon128.png" },
+
+	"permissions": [
+		"tabs",
+		"activeTab",
+		"http://twitter.com/*",
+		"https://twitter.com/*"
+	]
+}
