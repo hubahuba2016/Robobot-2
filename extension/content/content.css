@@ -1,0 +1,58 @@
+.bot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,0.9);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bot > bot {
+    display: block;
+}
+
+.tweet:hover .bot{
+    height: 0%;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px; /* Half the height */
+    margin-left: -25px; /* Half the width */
+}
+
+.avatar.badge {
+    border-radius: 0%;
+}
+
+.spin {
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.highlighted {
+    outline: 2.5px 'solid blue';
+    background-color: 'lightBlue';
+}
+
+
+
+
+

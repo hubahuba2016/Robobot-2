@@ -39,7 +39,6 @@ def is_user_bot_helper(screen_name):
     # post = api.get_status(id)
     # user = '@' + post.user.screen_name
     print(screen_name)
-    print('\n\n\n\n\n\n\n')
     user = '@' + screen_name
     result = bom.check_account(user)
 

@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 
-	"name": "SpotBot",
+	"name": "Oto Boto",
 	"description": "Midterm implementation",
 	"version": "0",
 
@@ -43,17 +43,24 @@
     },
 
 	"permissions": [
-		"tabs",
 		"activeTab",
 		"http://twitter.com/*",
 		"https://twitter.com/*"
 	],
 
-	"page_action": {
+	"browser_action": {
 		"default_icon": {                    
 			"16": "icons/icon16.png",
 	        "48": "icons/icon48.png",
 	        "128": "icons/icon128.png" 
-		}
-    }
+		},
+		"default_title": "Oto Boto",
+        "default_popup": "popup/popup.html"
+    },
+
+     "web_accessible_resources": [
+     	"icons/icon.png",
+     	"icons/badge.png",
+     	"bootstrap/*"
+     ]
 }
