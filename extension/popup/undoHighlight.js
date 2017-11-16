@@ -41,24 +41,28 @@ function unhighlight() {
 			}
 		}
 	}
+
 	// Followers and Following from profile page
     var lis2 = document.getElementsByClassName("ProfileNav-list")[0];
     if (lis2 != null)
 	{
 		lis2 = lis2.getElementsByTagName("li");
-	    for (var k = 1; k < 3; k++)
+	    for (var k = 0; k < lis2.length; k++)
 		{
-			lis2[k].style = 'none';
-		    lis2[k].removeEventListener("mouseover", mouseOver);
-			lis2[k].removeEventListener("mouseout", mouseOut);
-			if (k == 1)
+			if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers'))
 			{
-				lis2[k].removeEventListener("click", actionFollowing);
-			}
-			if (k == 2)
-			{
-				lis2[k].removeEventListener("click", actionFollower);
-			}
+				lis2[k].style = 'none';
+		   	 	lis2[k].removeEventListener("mouseover", mouseOver);
+				lis2[k].removeEventListener("mouseout", mouseOut);
+				if (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following')
+				{
+					lis2[k].removeEventListener("click", actionFollowing);
+				}
+				if (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers')
+				{
+					lis2[k].removeEventListener("click", actionFollower);
+				}
+		    }
 		}
 	}
 
