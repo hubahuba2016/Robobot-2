@@ -1,7 +1,7 @@
 // send to server ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // TESTING SECTION
-check profile to be inserted as parameter
+// check profile to be inserted as parameter
 var url = window.location.pathname;
 var profile = url.split("/").slice(-1)[0];
 if (profile === undefined || profile === '') {
@@ -9,14 +9,15 @@ if (profile === undefined || profile === '') {
 	profile = ur;
 }
 // Called to force testing
-tweet('926553250064687109', 'Retweets');
-tweet('926553250064687109', 'Likes');
+tweet('930647090933493760', 'Retweets');
+tweet('930647090933493760', 'Likes');
+// tweet('926553250064687109', 'Retweets');
+// tweet('926553250064687109', 'Likes');
 follow(profile, 'Followers');
 follow(profile, 'Following');
 
 // Check Retweets or Likes on a tweet
 function tweet(name, redir) {
-	var result;
 	console.log(`running tweet(${name}, ${redir})`);
 	chrome.runtime.sendMessage({
         method: 'POST',
@@ -24,7 +25,7 @@ function tweet(name, redir) {
         url: 'http://localhost:5000/check_post/' + redir,
         data: JSON.stringify(name)
     }, function(responseText) {
-			result = responseText;
+			var result = responseText;
 			console.log(`TWEET result: ${result}`);
 			if (result !== undefined) inject(result, '926553250064687109', redir);
     });
@@ -32,7 +33,6 @@ function tweet(name, redir) {
 
 // Check Followers or Following on a profile page or timeline
 function follow(name, redir) {
-	var result;
 	console.log(`running follow(${name}, ${redir})`);
 	chrome.runtime.sendMessage({
         method: 'POST',
@@ -40,7 +40,7 @@ function follow(name, redir) {
         url: 'http://localhost:5000/follow/' + redir,
         data: JSON.stringify(name)
     }, function(responseText) {
-			result = responseText;
+			var result = responseText;
 			console.log(`FOLLOW result: ${result}`);
 			if (result !== undefined) inject(result, '' ,redir);
     });
@@ -50,7 +50,7 @@ function follow(name, redir) {
 function inject(val, tweetID, act) {
 	if (act === 'Retweets') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
-		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
 		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
 	}
