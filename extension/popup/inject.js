@@ -18,37 +18,50 @@ function mouseOut() {
 
 function actionFollower(event) {
    	//alert('1');
-   	// jQuery
-	//$.getScript('./../content/content.js',function(){
-	follow(checkProfile(), 'Followers');
-		//});
-	event.preventDefault();
+    event.preventDefault();
 	event.stopPropagation();
+	this.style = 'none';
+	this.removeEventListener("mouseover", mouseOver);
+	this.removeEventListener("mouseout", mouseOut);
+	this.removeEventListener("click", actionFollower);
+	follow(checkProfile(), 'Followers');
 }
 
 function actionFollowing(event) {
    	//alert('1');
-   	follow(checkProfile(), 'Following')
-	event.preventDefault();
+   	event.preventDefault();
 	event.stopPropagation();
+	this.style = 'none';
+	this.removeEventListener("mouseover", mouseOver);
+	this.removeEventListener("mouseout", mouseOut);
+	this.removeEventListener("click", actionFollowing);
+   	follow(checkProfile(), 'Following');
 }
 
 function actionRetweet(event) {
+    event.stopPropagation();
    	var raw = $(this).attr('aria-describedby')
    	var split = raw.split("aria-");
    	var id = split[1];
    	//alert(id);
+    this.style = 'none';
+	this.removeEventListener("mouseover", mouseOver);
+	this.removeEventListener("mouseout", mouseOut);
+	this.removeEventListener("click", actionRetweet);
    	tweet(id, 'Retweets');
-	event.stopPropagation();
 }
 
 function actionFavorite(event) {
+	event.stopPropagation();
     var raw = $(this).attr('aria-describedby')
    	var split = raw.split("aria-");
    	var id = split[1];
    	//alert(id);
+   	this.style = 'none';
+	this.removeEventListener("mouseover", mouseOver);
+	this.removeEventListener("mouseout", mouseOut);
+	this.removeEventListener("click", actionFavorite);
    	tweet(id, 'Likes');
-	event.stopPropagation();
 }
 
 function highlight() {
@@ -63,20 +76,22 @@ function highlight() {
 		var selected = document.querySelectorAll(highlight[i]);
 
 		for (var element of selected) {
-			//console.log(element.style.zIndex);
-			$(element).wrap( "<span></span>" );
-			element.style.outline = '2.5px solid blue';
-			element.style.backgroundColor = 'lightBlue';
-		    element.addEventListener("mouseover", mouseOver);
-			element.addEventListener("mouseout", mouseOut);
-			if (i == 0)
+			if (element.style.outline == '')
 			{
-			    element.addEventListener("click", actionRetweet);
-			}
-			if (i == 1)
-			{
-				element.addEventListener("click", actionFavorite);
-			}
+				$(element).wrap( "<span></span>" );
+				element.style.outline = '2.5px solid blue';
+				element.style.backgroundColor = 'lightBlue';
+			    element.addEventListener("mouseover", mouseOver);
+				element.addEventListener("mouseout", mouseOut);
+				if (i == 0)
+				{
+				    element.addEventListener("click", actionRetweet);
+				}
+				if (i == 1)
+				{
+					element.addEventListener("click", actionFavorite);
+				}
+		    }
 		}
 	}
 
@@ -85,18 +100,21 @@ function highlight() {
 	if (lis != null)
 	{
 		lis = lis.getElementsByTagName("li");
-		for (var j = 0; j < lis.length; j++) {
-			lis[j].style.outline = '1.5px solid blue';
-			lis[j].style.backgroundColor = 'lightBlue';
-		    lis[j].addEventListener("mouseover", mouseOver);
-			lis[j].addEventListener("mouseout", mouseOut);
-			if (j == 1)
+		for (var j = 1; j < lis.length; j++) {
+			if (lis[j].style.outline == '')
 			{
-				lis[j].addEventListener("click", actionFollowing);
-			}
-			if (j == 2)
-			{
-				lis[j].addEventListener("click", actionFollower);
+				lis[j].style.outline = '1.5px solid blue';
+				lis[j].style.backgroundColor = 'lightBlue';
+			    lis[j].addEventListener("mouseover", mouseOver);
+				lis[j].addEventListener("mouseout", mouseOut);
+				if (j == 1)
+				{
+					lis[j].addEventListener("click", actionFollowing);
+				}
+				if (j == 2)
+				{
+					lis[j].addEventListener("click", actionFollower);
+				}
 			}
 		}
 	}
@@ -107,17 +125,19 @@ function highlight() {
 		lis2 = lis2.getElementsByTagName("li");
 	    for (var k = 0; k < lis2.length; k++)
 		{
-			if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers'))
+			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || 
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') || 
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active')) && (lis2[k].style.outline == ''))
 			{
 				lis2[k].style.outline = '1.5px solid blue';
 				lis2[k].style.backgroundColor = 'lightBlue';
 			    lis2[k].addEventListener("mouseover", mouseOver);
 				lis2[k].addEventListener("mouseout", mouseOut);
-				if (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following')
+				if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active'))
 				{
 					lis2[k].addEventListener("click", actionFollowing);
 				}
-				if (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers')
+				if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active'))
 				{
 					lis2[k].addEventListener("click", actionFollower);
 				}

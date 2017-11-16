@@ -49,16 +49,17 @@ function unhighlight() {
 		lis2 = lis2.getElementsByTagName("li");
 	    for (var k = 0; k < lis2.length; k++)
 		{
-			if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers'))
+			if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') ||
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active'))
 			{
 				lis2[k].style = 'none';
 		   	 	lis2[k].removeEventListener("mouseover", mouseOver);
 				lis2[k].removeEventListener("mouseout", mouseOut);
-				if (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following')
+				if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active'))
 				{
 					lis2[k].removeEventListener("click", actionFollowing);
 				}
-				if (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers')
+				if ((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active'))
 				{
 					lis2[k].removeEventListener("click", actionFollower);
 				}
