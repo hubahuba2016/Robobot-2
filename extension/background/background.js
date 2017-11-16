@@ -1,3 +1,9 @@
+chrome.runtime.onMessage.addListener(function(message, sender, callback){
+    if(message.type === 'showPageAction'){
+        chrome.pageAction.show(sender.tab.id);
+    }
+});
+
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
   if (request.action == "xhttp") {
 
@@ -7,15 +13,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         data: request.data,
         contentType : 'application/json;charset=UTF-8',
         crossDomain: true,
-        success: function(responseText){
+        success: function(responseText) {
             callback(responseText);
         },
         error: function(xhr, status, error) {
-            var acc = []
-            $.each(xhr, function(index, value) {
-                acc.push(index + ': ' + value);
-            });
-            alert(JSON.stringify(acc));
+            callback('error');
         }
     });
 
