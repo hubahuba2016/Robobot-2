@@ -20,7 +20,15 @@ auth.set_access_token(twitter_app_auth['access_token'], twitter_app_auth['access
 bom = botometer.Botometer(mashape_key=mashape_key, **twitter_app_auth)
 api = tweepy.API(auth)
 
+bot_score = 0.4
+
 # Helper functions
+def set_score_helper(num):
+    slide_score = int(float(num))
+    global bot_score
+    bot_score = slide_score/100
+    return str(bot_score)
+
 def check_post_helper(id):
     # load post obj by id
     postObj = api.get_status(id)
@@ -41,31 +49,24 @@ def is_user_bot_helper(screen_name):
     print(screen_name)
     user = '@' + screen_name
     result = bom.check_account(user)
+    score = result['scores']['english']
 
-    if (result['scores']['english'] > 0.4):
-        return 'bot'
+    if (score > bot_score):
+        return 'bot' #+ str(score)
     else:
-        return 'not'
-
-def average_score_helper(user):
-    # Create list of followers
-    accounts = []
-    for follower in user.followers():
-        accounts.append('@' + follower.screen_name)
-    results = list(bom.check_accounts_in(accounts))
-
-    # Calculate average score
-    index = 0
-    score = 0
-    for index in range(len(results)):
-        score = score + results[index][1]['scores']['english']
-    return "The average follower bot score is: " + str(score / len(results))
+        return 'not' #+ str(score)
 
 # Flask app
 app = Flask(__name__)
 CORS(app, support_credentials=True)
 
 # App routing
+@app.route("/set_score", methods=['GET', 'POST'])
+@cross_origin(support_credentials=True)
+def set_score():
+    return set_score_helper(request.get_json())
+    
+
 @app.route("/check_post", methods=['GET', 'POST'])
 @cross_origin(support_credentials=True)
 
@@ -76,7 +77,7 @@ def check_post():
 
     for bot in bots:
         # scores.append(bot[1]['scores']['english'])
-        if bot[1]['scores']['english'] > 0.4:
+        if bot[1]['scores']['english'] > bot_score:
             count = count + 1
 
     return str(count)
@@ -85,12 +86,6 @@ def check_post():
 @cross_origin(support_credentials=True)
 def is_user_bot():
     return is_user_bot_helper(request.get_json())
-
-@app.route("/average_score", methods=['GET', 'POST'])
-@cross_origin(support_credentials=True)
-def average_score():
-    user = api.get_user(request.get_json())
-    return average_score_helper(request.get_json())
 
 if __name__ == "__main__":
     app.run()

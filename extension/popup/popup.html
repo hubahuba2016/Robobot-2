@@ -1,17 +1,15 @@
 <!DOCTYPE html>  
 <html>  
-	<head>  
+	<head> 
+		<link rel="stylesheet" href="styles.css"> 
 		<title>Oto Boto</title>  
-		
-		<style>
-			html, body {
-				width: 100px;
-				height: auto;
-			}
-		</style>
 	</head>  
 	<body>  
-		<button id="clickme" style="width: 85%">Click me! :)</button>  
+		<div id="slidecontainer">
+			<input type="range" min="0" max="100" value="40" class="slider" id="slideBar">
+			<p>Score Threshold: <span id="score"></span></p>
+		</div>
+		<button id="clickme" style="width: 90%">Click me!</button>  
 		<script src="popup.js"></script>  
 	</body>  
 
