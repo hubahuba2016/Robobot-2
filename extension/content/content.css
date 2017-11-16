@@ -28,6 +28,10 @@
     margin-left: -25px; /* Half the width */
 }
 
+.avatar.badge {
+    border-radius: 0%;
+}
+
 .spin {
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
