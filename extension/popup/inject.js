@@ -244,13 +244,19 @@ function follow(name, redir) {
 function inject(val, tweetID, act) {
 	if (act === 'Retweets') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
-		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
+    if (!ele) {
+      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+    }
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
 		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
 	}
 	else if (act === 'Likes') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
 		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
+    if (!ele) {
+      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+    }
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
 		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
 	}
