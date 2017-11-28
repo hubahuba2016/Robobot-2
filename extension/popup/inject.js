@@ -147,18 +147,23 @@ function highlight() {
 			if (element.style.outline == '')
 			{
 				//$(element).wrap( "<span></span>" );
-				element.style.outline = '2.5px solid blue';
-				element.style.backgroundColor = 'lightBlue';
-			    element.addEventListener("mouseover", mouseOver);
-				element.addEventListener("mouseout", mouseOut);
-				if ((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') || 
-				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet'))
+				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') || 
+				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet')) && ($(element).css('display') == 'inline-block'))
 				{
+					element.style.outline = '2.5px solid blue';
+					element.style.backgroundColor = 'lightBlue';
+				    element.addEventListener("mouseover", mouseOver);
+					element.addEventListener("mouseout", mouseOut);
 				    element.addEventListener("click", actionRetweet);
 				}
-				if ((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') || 
-				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo ProfileTweet-action--unfavorite u-linkClean js-actionButton js-actionFavorite'))
+				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') || 
+				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo ProfileTweet-action--unfavorite u-linkClean js-actionButton js-actionFavorite')) &&
+				    ($(element).css('display') == 'inline-block'))
 				{
+					element.style.outline = '2.5px solid blue';
+					element.style.backgroundColor = 'lightBlue';
+				    element.addEventListener("mouseover", mouseOver);
+					element.addEventListener("mouseout", mouseOut);
 					element.addEventListener("click", actionFavorite);
 				}
 		    }
