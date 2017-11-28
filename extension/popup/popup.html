@@ -1,16 +1,11 @@
-<!DOCTYPE html>  
-<html>  
-	<head>  
-		<title>Oto Boto</title>  
-		
-		<style>
-			html, body {
-				width: 200px;
-				height: auto;
-			}
-		</style>
-	</head>  
-	<body>  
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Oto Boto</title>
+
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
 		<!--
 		<button id="clickme">
 			<img src="../icons/powerRed.png" width="100px" height="100px" id="buttonImage">
@@ -25,7 +20,13 @@
 		    </button>
 	    </div>
 
-		<script src="popup.js"></script>  
-	</body>  
+			
+			<div id="slidecontainer">
+			<input type="range" min="0" max="100" value="40" class="slider" id="slideBar">
+			<p>Score Threshold: <span id="score"></span></p>
+		</div>
+
+		<script src="popup.js"></script>
+	</body>
 
 </html>
