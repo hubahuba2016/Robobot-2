@@ -270,8 +270,8 @@ function inject(val, tweetID, act) {
     var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
     var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
-		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
-    var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val2}</span>`;
+		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"><p style='color:gray;display:inline'>${val}/</p>${old_val}</span>`;
+    var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"><p style='color:gray;display:inline'>${val}/</p>${old_val2}</span>`;
 	}
 	else if (act === 'Likes') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
@@ -279,8 +279,8 @@ function inject(val, tweetID, act) {
     var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
     var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
-		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
-    var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val2}</span>`;
+		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"><p style='color:gray;display:inline'>${val}/</p>${old_val}</span>`;
+    var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"><p style='color:gray;display:inline'>${val}/</p>${old_val2}</span>`;
 	}
 	else if (act === 'Followers') {
 		var ur = window.location.pathname;
