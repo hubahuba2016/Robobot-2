@@ -147,7 +147,7 @@ function highlight() {
 			if (element.style.outline == '')
 			{
 				//$(element).wrap( "<span></span>" );
-				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') || 
+				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') ||
 				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet')) && ($(element).css('display') == 'inline-block'))
 				{
 					element.style.outline = '2.5px solid blue';
@@ -156,7 +156,7 @@ function highlight() {
 					element.addEventListener("mouseout", mouseOut);
 				    element.addEventListener("click", actionRetweet);
 				}
-				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') || 
+				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') ||
 				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo ProfileTweet-action--unfavorite u-linkClean js-actionButton js-actionFavorite')) &&
 				    ($(element).css('display') == 'inline-block'))
 				{
@@ -171,7 +171,7 @@ function highlight() {
 	}
 
     // Followers and Following from newsfeed page
-	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];  
+	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];
 	if (lis != null)
 	{
 		lis = lis.getElementsByTagName("li");
@@ -207,8 +207,8 @@ function highlight() {
 		lis2 = lis2.getElementsByTagName("li");
 	    for (var k = 0; k < lis2.length; k++)
 		{
-			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || 
-				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') || 
+			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') ||
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') ||
 				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active')) && (lis2[k].style.outline == ''))
 			{
 				lis2[k].style.outline = '1.5px solid blue';
@@ -242,7 +242,7 @@ function tweet(name, redir) {
     }, function(responseText) {
 			result = responseText;
 			console.log(`TWEET result: ${result}`);
-			if (result !== undefined) inject(result, '', redir);
+			if (result !== undefined) inject(result, name, redir);
     });
 }
 
@@ -258,7 +258,7 @@ function follow(name, redir) {
     }, function(responseText) {
 			result = responseText;
 			console.log(`FOLLOW result: ${result}`);
-			if (result !== undefined) inject(result, '' ,redir);
+			if (result !== undefined) inject(result, name ,redir);
     });
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -267,20 +267,20 @@ function inject(val, tweetID, act) {
 	if (act === 'Retweets') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
 		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
-    if (!ele) {
-      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
-    }
+    var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+    var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
 		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
+    var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val2}</span>`;
 	}
 	else if (act === 'Likes') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
 		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
-    if (!ele) {
-      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
-    }
+    var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+    var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
 		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
+    var bots2 = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val2}</span>`;
 	}
 	else if (act === 'Followers') {
 		var ur = window.location.pathname;
