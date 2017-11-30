@@ -35,13 +35,13 @@
     margin-left: -25px; /* Half the width */
 }
 
-.stream-item-header .avatar.badge {
+.stream-item-header .avatar .badge {
     border-radius: 0%;
 
     width: 24px;
     height: 24px;
-    margin-top: 27px;
-    margin-left: -34px;
+/*    margin-top: 25px;
+    margin-left: 25px;*/
 }
 
 .spin {
@@ -58,8 +58,6 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-
 
 .highlighted {
     outline: 2.5px 'solid blue';
@@ -90,4 +88,32 @@
     width: 50%; /* Could be more or less, depending on screen size */
 }
 
+.badge-content.dropdown-menu {
+    height: auto;
+    width: auto;
+/*    margin-left: 25px;*/
+    background-color: #fff;
+    display: none;
+    top: 0;
+    position: relative;
+    z-index: 2;
+    float: none;
+}
 
+.dropdown:hover .badge-content {
+    display: block;
+    pointer-events: auto;
+}
+
+.stream-item-header .dropdown {
+    height: auto;
+    width: auto;
+    pointer-events: auto;
+}
+
+.stream-item-header .avatar.badge-wrapper {
+    padding-top: 25px;
+    padding-left: 25px;
+    height: auto;
+    width: auto;
+}
