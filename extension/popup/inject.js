@@ -105,9 +105,9 @@ function actionRetweet(event) {
    	var id = split[1];
    	//alert(id);
     this.style = 'none';
-	this.removeEventListener("mouseover", mouseOver);
-	this.removeEventListener("mouseout", mouseOut);
-	this.removeEventListener("click", actionRetweet);
+	  this.removeEventListener("mouseover", mouseOver);
+	  this.removeEventListener("mouseout", mouseOut);
+    this.removeEventListener("click", actionRetweet);
    	tweet(id, 'Retweets');
 }
 
@@ -220,7 +220,7 @@ function tweet(name, redir) {
     }, function(responseText) {
 			result = responseText;
 			console.log(`TWEET result: ${result}`);
-			if (result !== undefined) inject(result, '926553250064687109', redir);
+			if (result !== undefined) inject(result, '', redir);
     });
 }
 
