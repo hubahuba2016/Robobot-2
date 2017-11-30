@@ -280,7 +280,7 @@ function inject(val, tweetID, act) {
 		var old_val = ele.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
     var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
 		var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val}</span>`;
-    var bots2 = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val2}</span>`;
+    var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true"> ${val}/${old_val2}</span>`;
 	}
 	else if (act === 'Followers') {
 		var ur = window.location.pathname;
