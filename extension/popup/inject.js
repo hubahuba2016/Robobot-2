@@ -101,9 +101,13 @@ function actionFollowing(event) {
 function actionRetweet(event) {
     event.stopPropagation();
    	var raw = $(this).attr('aria-describedby')
+   	if (raw == null)
+    {
+        raw = $(this).prev().attr('aria-describedby')
+    }
    	var split = raw.split("aria-");
    	var id = split[1];
-   	//alert(id);
+   	// ADD SPINNING BUTTON ICON
     this.style = 'none';
 	  this.removeEventListener("mouseover", mouseOver);
 	  this.removeEventListener("mouseout", mouseOut);
@@ -114,9 +118,13 @@ function actionRetweet(event) {
 function actionFavorite(event) {
 	event.stopPropagation();
     var raw = $(this).attr('aria-describedby')
+    if (raw == null)
+    {
+        raw = $(this).prev().attr('aria-describedby')
+    }
    	var split = raw.split("aria-");
    	var id = split[1];
-   	//alert(id);
+   	// ADD SPINNING BUTTON ICON
    	this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
@@ -127,9 +135,9 @@ function actionFavorite(event) {
 function highlight() {
 	var tweets = document.querySelectorAll('div.tweet');
 	var highlight = ['button.ProfileTweet-actionButton.js-actionButton.js-actionRetweet',
-					 'button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite'];
-
-
+					 'button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite',
+					 'button.ProfileTweet-actionButtonUndo.js-actionButton.js-actionRetweet',
+					 'button.ProfileTweet-actionButtonUndo.ProfileTweet-action--unfavorite.u-linkClean.js-actionButton.js-actionFavorite'];
 
     // Handle tweet highlights
 	for (var i = 0; i < highlight.length; i++) {
@@ -138,17 +146,24 @@ function highlight() {
 		for (var element of selected) {
 			if (element.style.outline == '')
 			{
-				$(element).wrap( "<span></span>" );
-				element.style.outline = '2.5px solid blue';
-				element.style.backgroundColor = 'lightBlue';
-			    element.addEventListener("mouseover", mouseOver);
-				element.addEventListener("mouseout", mouseOut);
-				if (i == 0)
+				//$(element).wrap( "<span></span>" );
+				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') || 
+				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet')) && ($(element).css('display') == 'inline-block'))
 				{
+					element.style.outline = '2.5px solid blue';
+					element.style.backgroundColor = 'lightBlue';
+				    element.addEventListener("mouseover", mouseOver);
+					element.addEventListener("mouseout", mouseOut);
 				    element.addEventListener("click", actionRetweet);
 				}
-				if (i == 1)
+				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') || 
+				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo ProfileTweet-action--unfavorite u-linkClean js-actionButton js-actionFavorite')) &&
+				    ($(element).css('display') == 'inline-block'))
 				{
+					element.style.outline = '2.5px solid blue';
+					element.style.backgroundColor = 'lightBlue';
+				    element.addEventListener("mouseover", mouseOver);
+					element.addEventListener("mouseout", mouseOut);
 					element.addEventListener("click", actionFavorite);
 				}
 		    }
@@ -156,23 +171,30 @@ function highlight() {
 	}
 
     // Followers and Following from newsfeed page
-	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];
+	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];  
 	if (lis != null)
 	{
 		lis = lis.getElementsByTagName("li");
-		for (var j = 1; j < lis.length; j++) {
+		for (var j = 0; j < lis.length; j++) {
 			if (lis[j].style.outline == '')
 			{
-				lis[j].style.outline = '1.5px solid blue';
-				lis[j].style.backgroundColor = 'lightBlue';
-			    lis[j].addEventListener("mouseover", mouseOver);
-				lis[j].addEventListener("mouseout", mouseOut);
-				if (j == 1)
+				var chi = lis[j].children[0].getAttribute('href');
+				// Following tab
+				if (chi != null && chi.includes('following'))
 				{
+					lis[j].style.outline = '1.5px solid blue';
+					lis[j].style.backgroundColor = 'lightBlue';
+			    	lis[j].addEventListener("mouseover", mouseOver);
+					lis[j].addEventListener("mouseout", mouseOut);
 					lis[j].addEventListener("click", actionFollowing);
 				}
-				if (j == 2)
+				// Followers tab
+				else if (chi != null && chi.includes('followers'))
 				{
+					lis[j].style.outline = '1.5px solid blue';
+					lis[j].style.backgroundColor = 'lightBlue';
+			   	 	lis[j].addEventListener("mouseover", mouseOver);
+					lis[j].addEventListener("mouseout", mouseOut);
 					lis[j].addEventListener("click", actionFollower);
 				}
 			}
@@ -185,8 +207,8 @@ function highlight() {
 		lis2 = lis2.getElementsByTagName("li");
 	    for (var k = 0; k < lis2.length; k++)
 		{
-			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') ||
-				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') ||
+			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || 
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') || 
 				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active')) && (lis2[k].style.outline == ''))
 			{
 				lis2[k].style.outline = '1.5px solid blue';
