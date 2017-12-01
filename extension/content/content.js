@@ -8,12 +8,12 @@ var checkedUsers = {};
  *	@param {Object} drop - The dropdown menu of the badge.
  *	@param {String} score - The bot score associated with the Tweet.
  */
-function addBadgeMenu(drop, score) {
+function addBadgeMenu(drop, s) {
 	var dropdownContent = document.createElement('div');
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
 	drop.appendChild(dropdownContent);
 	var aScore = document.createElement('span');
-	aScore.innerHTML = score;
+	aScore.innerHTML = s;
 	dropdownContent.appendChild(aScore);
 	var ul = document.createElement('ul');
 	dropdownContent.appendChild(ul);
@@ -169,31 +169,33 @@ function processTweets(username, responseText) {
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
-			tweets[i].setAttribute('bot-score', responseText);
-			checkedUsers[username] = responseText;
+			tweets[i].setAttribute('bot-score', responseText.score);
+			checkedUsers[username] = responseText.score;
 
-			if (responseText === 'bot') {
+			var info = responseText.thing + ': ' + responseText.score;
+
+			if (responseText.thing === 'bot') {
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
 				if (verified === null) {
 					badge.src = chrome.extension.getURL("icons/icon48.png");
+					addMask(tweets[i], false);
 				}
 				else {
 					badge.src = chrome.extension.getURL("icons/checked.png");
+					info = info + ' (verified)';
 				}
 
 				addClick(badge);
-
-				addMask(tweets[i], false);
 			}
-			else if (responseText === 'not') {
+			else if (responseText.thing === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
 				addClick(badge);
 			}
 
 			var drop = tweets[i].querySelector('#drop');
 
-			addBadgeMenu(drop, responseText);
+			addBadgeMenu(drop, info);
 		}
 	}
 }

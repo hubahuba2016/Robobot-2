@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import botometer
 import tweepy
@@ -105,14 +105,20 @@ def follow_helper(userIn, act):
 def is_user_bot_helper(screen_name):
     # post = api.get_status(id)
     # user = '@' + post.user.screen_name
-    print(screen_name)
     user = '@' + screen_name
     result = bom.check_account(user)
+    score = result['scores']['english']
+    thing = '?'
 
-    if (result['scores']['english'] > bot_score):
-        return 'bot'
+    if (score > bot_score):
+        thing = 'bot'
     else:
-        return 'not'
+        thing = 'not'
+
+    print(screen_name, score, thing)
+
+    return jsonify(score=score,
+                   thing=thing)
 
 def average_score_helper(user):
     # Create list of followers
@@ -193,4 +199,4 @@ def average_score():
     return average_score_helper(request.get_json())
 
 if __name__ == "__main__":
-    app.run()
+    app.run(processes=3)
