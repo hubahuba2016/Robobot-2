@@ -204,7 +204,13 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
-    	checkedUsers.set(username, responseText);
-    	processTweets(username, responseText);
+    	if (responseText === 'error') {
+    		checkedUsers.delete(username)
+    		processTweets(username, responseText);
+    	}
+    	else {
+    		checkedUsers.set(username, responseText);
+    		processTweets(username, responseText);
+    	}
     });
 }
