@@ -2,8 +2,8 @@
 	"manifest_version": 2,
 
 	"name": "Oto Boto",
-	"description": "Practicum 2 implementation",
-	"version": "11.12.17",
+	"description": "Final Presentation",
+	"version": "12.02.17",
 
 	"background": {
 		"scripts": [
