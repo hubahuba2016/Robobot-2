@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import botometer
 import tweepy
@@ -22,7 +22,7 @@ auth.set_access_token(twitter_app_auth['access_token'], twitter_app_auth['access
 bom = botometer.Botometer(mashape_key=mashape_key, **twitter_app_auth)
 api = tweepy.API(auth)
 
-threshold = 0.4
+bot_score = 0.4
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TWEET()
 def get_user_ids_of_post_likes(post_id):
@@ -37,8 +37,9 @@ def get_user_ids_of_post_likes(post_id):
 #change bot_score
 def set_score_helper(num):
     slide_score = int(float(num))
-    threshold = slide_score/100
-    return str(threshold)
+    global bot_score
+    bot_score = slide_score/100
+    return str(bot_score)
 
 
 def check_post_helper(id, act):
@@ -95,7 +96,7 @@ def follow_helper(userIn, act):
     for score in results:
         if ('scores' in score[1]) :
             print('FOLLOW()', score[0], score[1]['scores']['english'])
-            if score[1]['scores']['english'] > threshold:
+            if score[1]['scores']['english'] > bot_score:
                 count = count + 1
     return str(count)
 
@@ -104,20 +105,14 @@ def follow_helper(userIn, act):
 def is_user_bot_helper(screen_name):
     # post = api.get_status(id)
     # user = '@' + post.user.screen_name
+    print(screen_name)
     user = '@' + screen_name
     result = bom.check_account(user)
-    score = result['scores']['english']
-    thing = '?'
 
-    if (score > threshold):
-        thing = 'bot'
+    if (result['scores']['english'] > bot_score):
+        return 'bot'
     else:
-        thing = 'not'
-
-    print(screen_name, score, thing)
-
-    return jsonify(score=score,
-                   thing=thing)
+        return 'not'
 
 def average_score_helper(user):
     # Create list of followers
@@ -158,7 +153,7 @@ def check_post(string):
     for bot in bots:
         if ('scores' in bot[1]):
             print('TWEET()', bot[0], bot[1]['scores']['english'])
-            if bot[1]['scores']['english'] > threshold:
+            if bot[1]['scores']['english'] > bot_score:
                 count = count + 1
     return str(count)
 # FOLLOW()
@@ -181,7 +176,7 @@ def check_post():
 
     for bot in bots:
         # scores.append(bot[1]['scores']['english'])
-        if bot[1]['scores']['english'] > threshold:
+        if bot[1]['scores']['english'] > bot_score:
             count = count + 1
 
     return str(count)
@@ -198,4 +193,4 @@ def average_score():
     return average_score_helper(request.get_json())
 
 if __name__ == "__main__":
-    app.run(processes=3)
+    app.run()
