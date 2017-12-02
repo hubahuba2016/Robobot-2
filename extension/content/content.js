@@ -11,6 +11,7 @@ var checkedUsers = {};
 function addBadgeMenu(drop, s) {
 	var dropdownContent = document.createElement('div');
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
+
 	drop.appendChild(dropdownContent);
 	var aScore = document.createElement('span');
 	aScore.innerHTML = s;
@@ -40,7 +41,6 @@ function addBadge(type, tweet) {
 	var wrapper = document.createElement('div');
 	wrapper.classList.add('avatar', 'badge-wrapper');
 	wrapper.style.pointerEvents = 'none';
-
 
 	var drop = document.createElement('div');
 	drop.id = 'drop';

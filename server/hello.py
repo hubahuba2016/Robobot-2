@@ -22,7 +22,7 @@ auth.set_access_token(twitter_app_auth['access_token'], twitter_app_auth['access
 bom = botometer.Botometer(mashape_key=mashape_key, **twitter_app_auth)
 api = tweepy.API(auth)
 
-bot_score = 0.4
+threshold = 0.4
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TWEET()
 def get_user_ids_of_post_likes(post_id):
@@ -37,9 +37,8 @@ def get_user_ids_of_post_likes(post_id):
 #change bot_score
 def set_score_helper(num):
     slide_score = int(float(num))
-    global bot_score
-    bot_score = slide_score/100
-    return str(bot_score)
+    threshold = slide_score/100
+    return str(threshold)
 
 
 def check_post_helper(id, act):
@@ -96,7 +95,7 @@ def follow_helper(userIn, act):
     for score in results:
         if ('scores' in score[1]) :
             print('FOLLOW()', score[0], score[1]['scores']['english'])
-            if score[1]['scores']['english'] > bot_score:
+            if score[1]['scores']['english'] > threshold:
                 count = count + 1
     return str(count)
 
@@ -110,7 +109,7 @@ def is_user_bot_helper(screen_name):
     score = result['scores']['english']
     thing = '?'
 
-    if (score > bot_score):
+    if (score > threshold):
         thing = 'bot'
     else:
         thing = 'not'
@@ -159,7 +158,7 @@ def check_post(string):
     for bot in bots:
         if ('scores' in bot[1]):
             print('TWEET()', bot[0], bot[1]['scores']['english'])
-            if bot[1]['scores']['english'] > bot_score:
+            if bot[1]['scores']['english'] > threshold:
                 count = count + 1
     return str(count)
 # FOLLOW()
@@ -182,7 +181,7 @@ def check_post():
 
     for bot in bots:
         # scores.append(bot[1]['scores']['english'])
-        if bot[1]['scores']['english'] > bot_score:
+        if bot[1]['scores']['english'] > threshold:
             count = count + 1
 
     return str(count)

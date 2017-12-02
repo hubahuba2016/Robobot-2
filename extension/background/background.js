@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             callback(responseText);
         },
         error: function(xhr, status, error) {
-            callback('error');
+            callback({'score': '?', 'thing': '?'});
         }
     });
 
