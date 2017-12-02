@@ -1,7 +1,7 @@
 // Signal to light up icon
 chrome.runtime.sendMessage({type:'showPageAction'});
 
-var checkedUsers = {};
+var checkedUsers = new Map();
 
 /**
  *	Adds a menu to the badge.
@@ -98,12 +98,12 @@ usernames: Array -> Array of usernames to process
 */
 function processUsers(usernames) {
 	for (username of usernames) {
-		if (!checkedUsers[username]) {
-			checkedUsers[username] = '?';
+		if (!checkedUsers.has(username)) {
+			checkedUsers.set(username, '?');
 			poster(username);
 		}
-		else if (checkedUsers[username] !== '?') {
-			processTweets(username, checkedUsers[username]);
+		else if (checkedUsers.get(username) !== '?') {
+			processTweets(username, checkedUsers.get(username));
 		}
 	}
 }
@@ -112,7 +112,7 @@ function checkTimeline() {
 	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet');
 	var usernames = [];
 
-	var threshold = 0;
+	console.log(checkedUsers);
 
 	for (var i = 0; i < tweets.length; i++) {
 		if (!tweets[i].hasAttribute("bot-score")) {
@@ -170,21 +170,19 @@ function processTweets(username, responseText) {
 			badge.classList.remove('spin');
 
 			tweets[i].setAttribute('bot-score', responseText);
-			checkedUsers[username] = responseText;
 
 			if (responseText === 'bot') {
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
 				if (verified === null) {
 					badge.src = chrome.extension.getURL("icons/icon48.png");
+					addMask(tweets[i], false);
 				}
 				else {
 					badge.src = chrome.extension.getURL("icons/checked.png");
 				}
 
 				addClick(badge);
-
-				addMask(tweets[i], false);
 			}
 			else if (responseText === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
@@ -206,6 +204,7 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
+    	checkedUsers.set(username, responseText);
     	processTweets(username, responseText);
     });
 }
