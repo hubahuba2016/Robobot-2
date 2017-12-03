@@ -146,20 +146,20 @@ if (target !== null) {
 function processTweets(username, responseText) {
 	var tweets = document.querySelectorAll('div.tweet');
 
-	function addClick(badge) {
-		badge.onclick = function(event) {
-			event.stopPropagation();
+	// function addClick(badge) {
+	// 	badge.onclick = function(event) {
+	// 		event.stopPropagation();
 
-			if (event.target.classList.contains("badge")) {
-				if (event.target.src.includes("icon48.png")) {
-					event.target.src = chrome.extension.getURL("icons/checked.png");
-				} 
-				else {
-					event.target.src = chrome.extension.getURL("icons/icon48.png");
-				}
-			}
-		}
-	}
+	// 		if (event.target.classList.contains("badge")) {
+	// 			if (event.target.src.includes("icon48.png")) {
+	// 				event.target.src = chrome.extension.getURL("icons/checked.png");
+	// 			} 
+	// 			else {
+	// 				event.target.src = chrome.extension.getURL("icons/icon48.png");
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	for (var i = 0; i < tweets.length; i++) {
 		var screenName = tweets[i].getAttribute('data-screen-name');
@@ -171,6 +171,8 @@ function processTweets(username, responseText) {
 
 			tweets[i].setAttribute('bot-score', responseText);
 
+			var description = responseText
+
 			if (responseText === 'bot') {
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
@@ -180,18 +182,19 @@ function processTweets(username, responseText) {
 				}
 				else {
 					badge.src = chrome.extension.getURL("icons/checked.png");
+					description = description + ' (verified)';
 				}
 
-				addClick(badge);
+				//addClick(badge);
 			}
 			else if (responseText === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
-				addClick(badge);
+				//addClick(badge);
 			}
 
 			var drop = tweets[i].querySelector('#drop');
 
-			addBadgeMenu(drop, responseText);
+			addBadgeMenu(drop, description);
 		}
 	}
 }
