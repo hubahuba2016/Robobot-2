@@ -109,7 +109,7 @@ function processUsers(usernames) {
 }
 
 function checkTimeline() {
-	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet');
+	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet, div.content-main .tweet');
 	var usernames = [];
 
 	console.log(checkedUsers);
