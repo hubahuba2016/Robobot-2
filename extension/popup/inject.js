@@ -1,59 +1,59 @@
-var tweets = document.querySelectorAll('div.tweet');
-$(tweets[0]).append('<button id="myBtn">Open Modal</button>');
-
-var modal = document.createElement('div');
-modal.id = 'myModal';
-modal.classList.add('mod');
-document.body.appendChild(modal);
-
-var close = document.createElement('div');
-close.classList.add('PermalinkProfile-dismiss', 'modal-close-fixed');
-modal.appendChild(close);
-
-var closeIcon = document.createElement('span');
-closeIcon.id = 'clo';
-closeIcon.classList.add('Icon', 'Icon--close');
-close.appendChild(closeIcon)
-
-var con = document.createElement('div');
-con.classList.add('mod-content');
-modal.appendChild(con);
-
-var p = document.createElement('h1');
-var b = document.createElement('br');
-var textnode = document.createTextNode('Bot Detection Results');
-p.appendChild(textnode);
-con.appendChild(p);
-con.appendChild(b);
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementById("clo");
-
-btn.onclick = function(event) {
-    event.stopPropagation();
-    if (event.target.id = 'myBtn') {
-      modal.style.display = "block";
-    }
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+// var tweets = document.querySelectorAll('div.tweet');
+// $(tweets[0]).append('<button id="myBtn">Open Modal</button>');
+//
+// var modal = document.createElement('div');
+// modal.id = 'myModal';
+// modal.classList.add('mod');
+// document.body.appendChild(modal);
+//
+// var close = document.createElement('div');
+// close.classList.add('PermalinkProfile-dismiss', 'modal-close-fixed');
+// modal.appendChild(close);
+//
+// var closeIcon = document.createElement('span');
+// closeIcon.id = 'clo';
+// closeIcon.classList.add('Icon', 'Icon--close');
+// close.appendChild(closeIcon)
+//
+// var con = document.createElement('div');
+// con.classList.add('mod-content');
+// modal.appendChild(con);
+//
+// var p = document.createElement('h1');
+// var b = document.createElement('br');
+// var textnode = document.createTextNode('Bot Detection Results');
+// p.appendChild(textnode);
+// con.appendChild(p);
+// con.appendChild(b);
+//
+// //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// // Get the modal
+// var modal = document.getElementById('myModal');
+//
+// // Get the button that opens the modal
+// var btn = document.getElementById("myBtn");
+//
+// // Get the <span> element that closes the modal
+// var span = document.getElementById("clo");
+//
+// btn.onclick = function(event) {
+//     event.stopPropagation();
+//     if (event.target.id = 'myBtn') {
+//       modal.style.display = "block";
+//     }
+// }
+//
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//     modal.style.display = "none";
+// }
+//
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// }
 
 //~~~~~~~~~~~~~~~HIGHLIGHT ELEMENTS START~~~~~~~~~~~~~~~~~~~~~~~~~~~
 var observer = null;
@@ -182,7 +182,7 @@ function highlight() {
 			if (element.style.outline == '')
 			{
 				// Retweets
-				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') || 
+				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') ||
 				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet')) && ($(element).css('display') == 'inline-block'))
 				{
 					element.style.outline = '2.5px solid blue';
@@ -192,7 +192,7 @@ function highlight() {
 				    element.addEventListener("click", actionRetweet);
 				}
 				// Favorites
-				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') || 
+				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') ||
 				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo ProfileTweet-action--unfavorite u-linkClean js-actionButton js-actionFavorite')) &&
 				    ($(element).css('display') == 'inline-block') && !element.hasAttribute('checked'))
 				{
@@ -207,7 +207,7 @@ function highlight() {
 	}
 
     // Followers and Following from newsfeed page
-	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];  
+	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];
 	if (lis != null)
 	{
 		lis = lis.getElementsByTagName("li");
@@ -243,8 +243,8 @@ function highlight() {
 		lis2 = lis2.getElementsByTagName("li");
 	    for (var k = 0; k < lis2.length; k++)
 		{
-			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || 
-				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') || 
+			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') ||
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') ||
 				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active')) && (lis2[k].style.outline == ''))
 			{
 				lis2[k].style.outline = '1.5px solid blue';
@@ -308,183 +308,183 @@ function initiateObserver()
 }
 //~~~~~~~~~~~~~~~HIGHLIGHT ELEMENTS END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function modalContent(results, bot_score) {
-  var lines = results.split('|');
-  // bot user : score
-  var count = 0;
-  for (var index = 0; index < lines.length; index++) {
-    var line = lines[index].split(':');
-    var user = line[0];
-    var score = line[1];
-    if (score > bot_score) {
-      var p = document.createElement('a');
-      var s = document.createElement('span');
-      var b = document.createElement('br');
-      var textnode = document.createTextNode(user);
-      p.appendChild(textnode);
-      var textnodes = document.createTextNode('score: ' + score);
-      s.appendChild(textnodes);
-      s.setAttribute('style', 'margin-right:65%;float:right');
-      p.href = 'https://twitter.com/'+user;
-      con.appendChild(p);
-      con.appendChild(s);
-      con.appendChild(b);
-    }
-  }
-}
-
-// Check Retweets or Likes on a tweet
-function tweet(name, redir) {
-	var result;
-	console.log(`running tweet(${name}, ${redir})`);
-	chrome.runtime.sendMessage({
-        method: 'POST',
-        action: 'xhttp',
-        url: 'http://localhost:5000/check_post/' + redir,
-        data: JSON.stringify(name)
-    }, function(responseText) {
-      var arr = responseText.split('|');
-      // tweet heading
-      var h = document.createElement('h3');
-      var b = document.createElement('br');
-      var textnode = document.createTextNode('(' + redir + ') ' + name);
-      h.appendChild(textnode);
-      con.appendChild(b);
-      con.appendChild(h);
-      result = arr[0];
-      // insert into modal
-      if(result > 0) {
-        for (var index = 2; index < arr.length -1; index++) {
-          modalContent(arr[index], arr[1]);
-        }
-      }
-      else {
-        var p = document.createElement('p');
-        var b = document.createElement('br');
-        var textnode = document.createTextNode('No bots found');
-        p.appendChild(textnode);
-        con.appendChild(p);
-        con.appendChild(b);
-      }
-			console.log(`TWEET result: ${result}`);
-			if (result !== undefined) inject(result, name, redir);
-    });
-}
-
-// Check Followers or Following on a profile page or timeline
-function follow(name, redir) {
-	var result;
-	console.log(`running follow(${name}, ${redir})`);
-	chrome.runtime.sendMessage({
-        method: 'POST',
-        action: 'xhttp',
-        url: 'http://localhost:5000/follow/' + redir,
-        data: JSON.stringify(name)
-    }, function(responseText) {
-      var arr = responseText.split('|');
-      // tweet heading
-      var h = document.createElement('h3');
-      var b = document.createElement('br');
-      var textnode = document.createTextNode('(' + redir + ') ' + name);
-      h.appendChild(textnode);
-      con.appendChild(b);
-      con.appendChild(h);
-      result = arr[0];
-      // insert into modal
-      if(result > 0) {
-        for (var index = 2; index < arr.length -1; index++) {
-          modalContent(arr[index], arr[1]);
-        }
-      }
-      else {
-        var p = document.createElement('p');
-        var b = document.createElement('br');
-        var textnode = document.createTextNode('No bots found');
-        p.appendChild(textnode);
-        con.appendChild(p);
-        con.appendChild(b);
-      }
-			console.log(`FOLLOW result: ${result}`);
-			if (result !== undefined) inject(result, name ,redir);
-    });
-}
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Front-End Inject
-function inject(val, tweetID, act) {
-	if (act === 'Retweets') {
-		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
-    var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .IconContainer');
-    stop.classList.remove('spin');
-    var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .IconContainer');
-    stop2.classList.remove('spin');
-		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
-    var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton');
-    if ( $(ele).css('display') == 'inline-block' ) {
-      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
-      var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
-      var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-    else {
-      var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
-      var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
-      var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-  }
-	else if (act === 'Likes') {
-		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
-    var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .IconContainer');
-    stop.classList.remove('spin');
-    var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .IconContainer');
-    stop2.classList.remove('spin');
-		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
-    var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton');
-    if ( $(ele).css('display') == 'inline-block' ) {
-      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
-      var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
-      var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-    else {
-      var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
-      var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
-      var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-  }
-	else if (act === 'Followers') {
-		var ur = window.location.pathname;
-		var prof = ur.split("/").slice(-1)[0];
-    removeElement('loading1');
-		// on profile
-		if (prof) {
-			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--followers .ProfileNav-stat');
-			var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
-			var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Followers</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
-		}
-		// on home
-		else {
-			var ele = document.querySelector('.DashboardProfileCard-content .ProfileCardStats .ProfileCardStats-statList');
-			var li = ele.querySelectorAll('.ProfileCardStats-stat')[2];
-			var lio = li.querySelector('.ProfileCardStats-statLink .ProfileCardStats-statValue');
-			var old_val = lio.innerHTML;
-			var bots = lio.innerHTML = `<span class="ProfileCardStats-statValue" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
-		}
-	}
-	else if (act === 'Following') {
-		var ur = window.location.pathname;
-		var prof = ur.split("/").slice(-1)[0];
-    removeElement('loading2');
-		// on profile
-		if (prof) {
-			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--following .ProfileNav-stat');
-			var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
-			var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Following</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
-		}
-		// on home
-		else {
-			var ele = document.querySelector('.DashboardProfileCard-content .ProfileCardStats .ProfileCardStats-statList');
-			var li = ele.querySelectorAll('.ProfileCardStats-stat')[1];
-			var lio = li.querySelector('.ProfileCardStats-statLink .ProfileCardStats-statValue');
-			var old_val = lio.innerHTML;
-			var bots = lio.innerHTML = `<span class="ProfileCardStats-statValue" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
-		}
-	}
-}
+// function modalContent(results, bot_score) {
+//   var lines = results.split('|');
+//   // bot user : score
+//   var count = 0;
+//   for (var index = 0; index < lines.length; index++) {
+//     var line = lines[index].split(':');
+//     var user = line[0];
+//     var score = line[1];
+//     if (score > bot_score) {
+//       var p = document.createElement('a');
+//       var s = document.createElement('span');
+//       var b = document.createElement('br');
+//       var textnode = document.createTextNode(user);
+//       p.appendChild(textnode);
+//       var textnodes = document.createTextNode('score: ' + score);
+//       s.appendChild(textnodes);
+//       s.setAttribute('style', 'margin-right:65%;float:right');
+//       p.href = 'https://twitter.com/'+user;
+//       con.appendChild(p);
+//       con.appendChild(s);
+//       con.appendChild(b);
+//     }
+//   }
+// }
+//
+// // Check Retweets or Likes on a tweet
+// function tweet(name, redir) {
+// 	var result;
+// 	console.log(`running tweet(${name}, ${redir})`);
+// 	chrome.runtime.sendMessage({
+//         method: 'POST',
+//         action: 'xhttp',
+//         url: 'http://localhost:5000/check_post/' + redir,
+//         data: JSON.stringify(name)
+//     }, function(responseText) {
+//       var arr = responseText.split('|');
+//       // tweet heading
+//       var h = document.createElement('h3');
+//       var b = document.createElement('br');
+//       var textnode = document.createTextNode('(' + redir + ') ' + name);
+//       h.appendChild(textnode);
+//       con.appendChild(b);
+//       con.appendChild(h);
+//       result = arr[0];
+//       // insert into modal
+//       if(result > 0) {
+//         for (var index = 2; index < arr.length -1; index++) {
+//           modalContent(arr[index], arr[1]);
+//         }
+//       }
+//       else {
+//         var p = document.createElement('p');
+//         var b = document.createElement('br');
+//         var textnode = document.createTextNode('No bots found');
+//         p.appendChild(textnode);
+//         con.appendChild(p);
+//         con.appendChild(b);
+//       }
+// 			console.log(`TWEET result: ${result}`);
+// 			if (result !== undefined) inject(result, name, redir);
+//     });
+// }
+//
+// // Check Followers or Following on a profile page or timeline
+// function follow(name, redir) {
+// 	var result;
+// 	console.log(`running follow(${name}, ${redir})`);
+// 	chrome.runtime.sendMessage({
+//         method: 'POST',
+//         action: 'xhttp',
+//         url: 'http://localhost:5000/follow/' + redir,
+//         data: JSON.stringify(name)
+//     }, function(responseText) {
+//       var arr = responseText.split('|');
+//       // tweet heading
+//       var h = document.createElement('h3');
+//       var b = document.createElement('br');
+//       var textnode = document.createTextNode('(' + redir + ') ' + name);
+//       h.appendChild(textnode);
+//       con.appendChild(b);
+//       con.appendChild(h);
+//       result = arr[0];
+//       // insert into modal
+//       if(result > 0) {
+//         for (var index = 2; index < arr.length -1; index++) {
+//           modalContent(arr[index], arr[1]);
+//         }
+//       }
+//       else {
+//         var p = document.createElement('p');
+//         var b = document.createElement('br');
+//         var textnode = document.createTextNode('No bots found');
+//         p.appendChild(textnode);
+//         con.appendChild(p);
+//         con.appendChild(b);
+//       }
+// 			console.log(`FOLLOW result: ${result}`);
+// 			if (result !== undefined) inject(result, name ,redir);
+//     });
+// }
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// // Front-End Inject
+// function inject(val, tweetID, act) {
+// 	if (act === 'Retweets') {
+// 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
+//     var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .IconContainer');
+//     stop.classList.remove('spin');
+//     var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .IconContainer');
+//     stop2.classList.remove('spin');
+// 		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
+//     var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton');
+//     if ( $(ele).css('display') == 'inline-block' ) {
+//       ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
+//       var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
+//       var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+//     }
+//     else {
+//       var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+//       var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+//       var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+//     }
+//   }
+// 	else if (act === 'Likes') {
+// 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
+//     var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .IconContainer');
+//     stop.classList.remove('spin');
+//     var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .IconContainer');
+//     stop2.classList.remove('spin');
+// 		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
+//     var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton');
+//     if ( $(ele).css('display') == 'inline-block' ) {
+//       ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
+//       var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
+//       var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+//     }
+//     else {
+//       var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+//       var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+//       var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+//     }
+//   }
+// 	else if (act === 'Followers') {
+// 		var ur = window.location.pathname;
+// 		var prof = ur.split("/").slice(-1)[0];
+//     removeElement('loading1');
+// 		// on profile
+// 		if (prof) {
+// 			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--followers .ProfileNav-stat');
+// 			var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
+// 			var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Followers</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+// 		}
+// 		// on home
+// 		else {
+// 			var ele = document.querySelector('.DashboardProfileCard-content .ProfileCardStats .ProfileCardStats-statList');
+// 			var li = ele.querySelectorAll('.ProfileCardStats-stat')[2];
+// 			var lio = li.querySelector('.ProfileCardStats-statLink .ProfileCardStats-statValue');
+// 			var old_val = lio.innerHTML;
+// 			var bots = lio.innerHTML = `<span class="ProfileCardStats-statValue" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+// 		}
+// 	}
+// 	else if (act === 'Following') {
+// 		var ur = window.location.pathname;
+// 		var prof = ur.split("/").slice(-1)[0];
+//     removeElement('loading2');
+// 		// on profile
+// 		if (prof) {
+// 			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--following .ProfileNav-stat');
+// 			var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
+// 			var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Following</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+// 		}
+// 		// on home
+// 		else {
+// 			var ele = document.querySelector('.DashboardProfileCard-content .ProfileCardStats .ProfileCardStats-statList');
+// 			var li = ele.querySelectorAll('.ProfileCardStats-stat')[1];
+// 			var lio = li.querySelector('.ProfileCardStats-statLink .ProfileCardStats-statValue');
+// 			var old_val = lio.innerHTML;
+// 			var bots = lio.innerHTML = `<span class="ProfileCardStats-statValue" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+// 		}
+// 	}
+// }
