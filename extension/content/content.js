@@ -242,9 +242,9 @@ function poster(username) {
     });
 }
 
-// TRANSFER FROM Inject~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// TRANSFER FROM INJECT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 var tweets = document.querySelectorAll('div.tweet');
-$(tweets[0]).append('<button id="myBtn">Open Modal</button>');
+$(document.body).append('<button id="myBtn">Open Modal</button>');
 
 var modal = document.createElement('div');
 modal.id = 'myModal';
