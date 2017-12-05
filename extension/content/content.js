@@ -3,6 +3,12 @@ chrome.runtime.sendMessage({type:'showPageAction'});
 
 var checkedUsers = new Map();
 
+function stopPropagation(element) {
+	element.onclick = function(event) {
+		event.stopPropagation();
+	}
+}
+
 /**
  *	Adds a menu to the badge.
  *	@param {Object} drop - The dropdown menu of the badge.
@@ -13,7 +19,9 @@ function addBadgeMenu(drop, score) {
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
 	drop.appendChild(dropdownContent);
 	var aScore = document.createElement('span');
-	aScore.classList.add('dropdown-link', 'inactive-link');
+	//aScore.classList.add('dropdown-link', 'inactive-link');
+	aScore.classList.add('description');
+	stopPropagation(aScore);
 	aScore.innerHTML = score;
 	dropdownContent.appendChild(aScore);
 	var ul = document.createElement('ul');
@@ -43,6 +51,7 @@ function addBadge(type, tweet) {
 	var wrapper = document.createElement('div');
 	wrapper.classList.add('avatar', 'badge-wrapper');
 	wrapper.style.pointerEvents = 'none';
+
 
 	var drop = document.createElement('div');
 	drop.id = 'drop';
@@ -152,14 +161,14 @@ function processTweets(username, responseText) {
 	// 	badge.onclick = function(event) {
 	// 		event.stopPropagation();
 
-	// 		if (event.target.classList.contains("badge")) {
-	// 			if (event.target.src.includes("icon48.png")) {
-	// 				event.target.src = chrome.extension.getURL("icons/checked.png");
-	// 			} 
-	// 			else {
-	// 				event.target.src = chrome.extension.getURL("icons/icon48.png");
-	// 			}
-	// 		}
+	// 		// if (event.target.classList.contains("badge")) {
+	// 		// 	if (event.target.src.includes("icon48.png")) {
+	// 		// 		event.target.src = chrome.extension.getURL("icons/checked.png");
+	// 		// 	} 
+	// 		// 	else {
+	// 		// 		event.target.src = chrome.extension.getURL("icons/icon48.png");
+	// 		// 	}
+	// 		// }
 	// 	}
 	// }
 
@@ -197,13 +206,16 @@ function processTweets(username, responseText) {
 				}
 
 				//addClick(badge);
+				stopPropagation(badge);
 			}
 			else if (description === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
 				//addClick(badge);
+				stopPropagation(badge);
 			}
 
 			var drop = tweets[i].querySelector('#drop');
+			drop.style.cursor = 'default';
 
 			addBadgeMenu(drop, description);
 		}
@@ -221,7 +233,6 @@ function poster(username) {
     	if (responseText) {
     		checkedUsers.set(username, responseText);
     		processTweets(username, responseText);
-
     	}
     	else {
     		checkedUsers.delete(username)
