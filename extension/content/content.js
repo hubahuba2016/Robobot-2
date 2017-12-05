@@ -125,15 +125,15 @@ function checkTimeline() {
 
 	console.log(checkedUsers);
 
-	// for (var i = 0; i < tweets.length; i++) {
-	// 	if (!tweets[i].hasAttribute("bot-score")) {
-	// 		addBadge('unchecked', tweets[i]);
-	// 		var user_id = tweets[i].getAttribute('data-user-id');
-	// 		var screenName = tweets[i].getAttribute('data-screen-name');
-	// 		usernames.push(screenName);
-	// 		tweets[i].setAttribute('bot-score', '?');
-	// 	}
-	// }
+	for (var i = 0; i < tweets.length; i++) {
+		if (!tweets[i].hasAttribute("bot-score")) {
+			addBadge('unchecked', tweets[i]);
+			var user_id = tweets[i].getAttribute('data-user-id');
+			var screenName = tweets[i].getAttribute('data-screen-name');
+			usernames.push(screenName);
+			tweets[i].setAttribute('bot-score', '?');
+		}
+	}
 
 	processUsers(usernames);
 }
@@ -212,6 +212,7 @@ function processTweets(username, responseText) {
 				badge.src = chrome.extension.getURL("icons/checked.png");
 				//addClick(badge);
 				stopPropagation(badge);
+				description = description + ': ' + score;
 			}
 
 			var drop = tweets[i].querySelector('#drop');

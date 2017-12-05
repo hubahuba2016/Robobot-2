@@ -204,4 +204,4 @@ def average_score():
     return average_score_helper(request.get_json())
 
 if __name__ == "__main__":
-    app.run(processes=3)
+    app.run()
