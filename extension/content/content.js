@@ -114,15 +114,15 @@ function checkTimeline() {
 
 	var threshold = 0;
 
-	for (var i = 0; i < tweets.length; i++) {
-		if (!tweets[i].hasAttribute("bot-score")) {
-			addBadge('unchecked', tweets[i]);
-			var user_id = tweets[i].getAttribute('data-user-id');
-			var screenName = tweets[i].getAttribute('data-screen-name');
-			usernames.push(screenName);
-			tweets[i].setAttribute('bot-score', '?');
-		}
-	}
+	// for (var i = 0; i < tweets.length; i++) {
+	// 	if (!tweets[i].hasAttribute("bot-score")) {
+	// 		addBadge('unchecked', tweets[i]);
+	// 		var user_id = tweets[i].getAttribute('data-user-id');
+	// 		var screenName = tweets[i].getAttribute('data-screen-name');
+	// 		usernames.push(screenName);
+	// 		tweets[i].setAttribute('bot-score', '?');
+	// 	}
+	// }
 
 	processUsers(usernames);
 }
@@ -153,7 +153,7 @@ function processTweets(username, responseText) {
 			if (event.target.classList.contains("badge")) {
 				if (event.target.src.includes("icon48.png")) {
 					event.target.src = chrome.extension.getURL("icons/checked.png");
-				} 
+				}
 				else {
 					event.target.src = chrome.extension.getURL("icons/icon48.png");
 				}
