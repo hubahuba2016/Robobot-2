@@ -214,8 +214,8 @@ function processTweets(username, responseText) {
 			tweets[i].setAttribute('bot-score', score);
 
 
-			var description = responseText
-			var whitel = [];
+			//var description = responseText
+			/*var whitel = [];
 			var blackl = [];
 
 			chrome.storage.local.get('white', function(items){
@@ -228,7 +228,7 @@ function processTweets(username, responseText) {
 				if (items.black) {
 					blackl = items.black;
 				}
-			});
+			});*/
 
 			/*if (whitel.includes(username)) {
 				console.log('whitelist');
@@ -279,6 +279,7 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
+    	console.log(responseText);
     	if (responseText) {
     		checkedUsers.set(username, responseText);
     		processTweets(username, responseText);
