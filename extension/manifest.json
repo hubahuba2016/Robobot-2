@@ -45,7 +45,8 @@
 	"permissions": [
 		"activeTab",
 		"http://twitter.com/*",
-		"https://twitter.com/*"
+		"https://twitter.com/*",
+		"storage"
 	],
 
 	"page_action": {

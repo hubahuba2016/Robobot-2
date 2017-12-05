@@ -1,5 +1,9 @@
 // Signal to light up icon
 chrome.runtime.sendMessage({type:'showPageAction'});
+chrome.runtime.onMessage.addListener(threshold => {
+	var timeline = document.querySelector('.ProfileTimeline, .content-main');
+	timeline.setAttribute('bot-limit', threshold.value);
+});
 
 var checkedUsers = new Map();
 
@@ -8,7 +12,7 @@ var checkedUsers = new Map();
  *	@param {Object} drop - The dropdown menu of the badge.
  *	@param {String} score - The bot score associated with the Tweet.
  */
-function addBadgeMenu(drop, score) {
+function addBadgeMenu(drop, score, username) {
 	var dropdownContent = document.createElement('div');
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
 	drop.appendChild(dropdownContent);
@@ -23,12 +27,30 @@ function addBadgeMenu(drop, score) {
 	var buttBot = document.createElement('button');
 	buttBot.textContent = 'This user is a bot';
 	liBot.appendChild(buttBot);
+	buttBot.onclick = function(){
+		chrome.storage.local.get({black: []}, function (items){
+			var bl = items.black;
+			bl.push(username);
+			chrome.storage.local.set({black: bl}, function() {});
+		});
+
+
+	 };
 
 	var liNot = document.createElement('li');
 	ul.appendChild(liNot);
 	var buttNot = document.createElement('button');
 	buttNot.textContent = 'This user is not a bot';
 	liNot.appendChild(buttNot);
+	buttNot.onclick = function(){
+		chrome.storage.local.get({white: []}, function (items){
+			var wl = items.white;
+			wl.push(username);
+			chrome.storage.local.set({white: wl}, function() {});
+		});
+
+
+	 };
 }
 
 /*
@@ -129,7 +151,7 @@ function checkTimeline() {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Check of the Timeline
-setInterval(checkTimeline, 500);
+setInterval(checkTimeline, 5000);
 // Find the Tweet stream of the Timeline
 var target = document.querySelector('ol#stream-items-id.stream-items.js-navigable-stream');
 //var target = document.querySelector('div[data-test-selector="ProfileTimeline"]');
@@ -172,8 +194,29 @@ function processTweets(username, responseText) {
 			tweets[i].setAttribute('bot-score', responseText);
 
 			var description = responseText
+			var whitel = [];
+			var blackl = [];
 
-			if (responseText === 'bot') {
+			chrome.storage.local.get('white', function(items){
+				if (items.white) {
+					whitel = items.white;
+				}
+			});
+
+			chrome.storage.local.get('black', function(items){
+				if (items.black) {
+					blackl = items.black;
+				}
+			});
+
+			/*if (whitel.includes(username)) {
+				console.log('whitelist');
+			}
+
+			else if (blackl.includes(username)) {
+				console.log("blacklist");
+			}*/
+			else if (responseText === 'bot') {
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
 				if (verified === null) {
@@ -194,7 +237,7 @@ function processTweets(username, responseText) {
 
 			var drop = tweets[i].querySelector('#drop');
 
-			addBadgeMenu(drop, description);
+			addBadgeMenu(drop, description, username);
 		}
 	}
 }
@@ -217,3 +260,4 @@ function poster(username) {
     	}
     });
 }
+
