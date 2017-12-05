@@ -13,6 +13,7 @@ function addBadgeMenu(drop, score) {
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
 	drop.appendChild(dropdownContent);
 	var aScore = document.createElement('span');
+	aScore.classList.add('dropdown-link', 'inactive-link');
 	aScore.innerHTML = score;
 	dropdownContent.appendChild(aScore);
 	var ul = document.createElement('ul');
@@ -21,13 +22,15 @@ function addBadgeMenu(drop, score) {
 	var liBot = document.createElement('li');
 	ul.appendChild(liBot);
 	var buttBot = document.createElement('button');
-	buttBot.textContent = 'This user is a bot';
+	buttBot.classList.add('dropdown-link');
+	buttBot.textContent = 'Mark user as a bot';
 	liBot.appendChild(buttBot);
 
 	var liNot = document.createElement('li');
 	ul.appendChild(liNot);
 	var buttNot = document.createElement('button');
-	buttNot.textContent = 'This user is not a bot';
+	buttNot.classList.add('dropdown-link');
+	buttNot.textContent = 'Mark user as not a bot';
 	liNot.appendChild(buttNot);
 }
 
@@ -40,7 +43,6 @@ function addBadge(type, tweet) {
 	var wrapper = document.createElement('div');
 	wrapper.classList.add('avatar', 'badge-wrapper');
 	wrapper.style.pointerEvents = 'none';
-
 
 	var drop = document.createElement('div');
 	drop.id = 'drop';
@@ -173,7 +175,7 @@ function processTweets(username, responseText) {
 				score = responseText.score;
 				description = responseText.description;
 			}
-			
+
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
