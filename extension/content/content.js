@@ -165,29 +165,38 @@ function processTweets(username, responseText) {
 		var screenName = tweets[i].getAttribute('data-screen-name');
 
 		if (screenName === username && tweets[i].getAttribute('bot-score') == '?') {
+
+			var score = '?';
+			var description = '?';
+
+			if (responseText) {
+				score = responseText.score;
+				description = responseText.description;
+			}
+			
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
-			tweets[i].setAttribute('bot-score', responseText);
+			tweets[i].setAttribute('bot-score', score);
 
-			var description = responseText
-
-			if (responseText === 'bot') {
+			if (description === 'bot') {
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
 				if (verified === null) {
 					badge.src = chrome.extension.getURL("icons/icon48.png");
 					addMask(tweets[i], false);
+
+					description = description + ': ' + score;
 				}
 				else {
 					badge.src = chrome.extension.getURL("icons/checked.png");
-					description = description + ' (verified)';
+					description = description + ': ' + score + ' (verified)';
 				}
 
 				//addClick(badge);
 			}
-			else if (responseText === 'not') {
+			else if (description === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
 				//addClick(badge);
 			}
@@ -207,12 +216,13 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
-    	if (responseText === 'error') {
-    		checkedUsers.delete(username)
+    	if (responseText) {
+    		checkedUsers.set(username, responseText);
     		processTweets(username, responseText);
+
     	}
     	else {
-    		checkedUsers.set(username, responseText);
+    		checkedUsers.delete(username)
     		processTweets(username, responseText);
     	}
     });
