@@ -55,6 +55,9 @@ window.onclick = function(event) {
     }
 }
 
+//~~~~~~~~~~~~~~~HIGHLIGHT ELEMENTS START~~~~~~~~~~~~~~~~~~~~~~~~~~~
+var observer = null;
+
 function checkProfile() {
 	var url = window.location.pathname;
     var profile = url.split("/").slice(-1)[0];
@@ -73,59 +76,26 @@ function mouseOut() {
     this.style.setProperty ("background-color", "lightblue", "important");
 }
 
-
-// var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--followers .ProfileNav-stat');
-// var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
-// var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Followers</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
-
-function removeElement(elementId) {
-    // Removes an element from the document
-    var element = document.getElementById(elementId);
-    element.parentNode.removeChild(element);
-}
-
 function actionFollower(event) {
-  //alert('1');
-  event.preventDefault();
+   	//alert('1');
+    event.preventDefault();
 	event.stopPropagation();
 	this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
 	this.removeEventListener("click", actionFollower);
-  // add spins
-  var value = this.querySelector('.ProfileNav-stat .ProfileNav-value');
-  if (!value) {
-    value = this.querySelector('.ProfileCardStats-stat .ProfileCardStats-statValue');
-  }
-  var old_val = value.innerHTML;
-  var temp = document.createElement('img');
-  temp.className += 'spin';
-  temp.src = chrome.extension.getURL("icons/icon16.png");
-  value.innerHTML = `<span>${old_val} <span id='loading1'></span></span>`;
-  $(value.querySelector('#loading1')).append(temp);
 	follow(checkProfile(), 'Followers');
 }
 
 function actionFollowing(event) {
    	//alert('1');
-  event.preventDefault();
+   	event.preventDefault();
 	event.stopPropagation();
 	this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
 	this.removeEventListener("click", actionFollowing);
-  // add spins
-  var value = this.querySelector('.ProfileNav-stat .ProfileNav-value');
-  if (!value) {
-    value = this.querySelector('.ProfileCardStats-stat .ProfileCardStats-statValue');
-  }
-  var old_val = value.innerHTML;
-  var temp = document.createElement('img');
-  temp.className += 'spin';
-  temp.src = chrome.extension.getURL("icons/icon16.png");
-  value.innerHTML = `<span>${old_val} <span id='loading2'></span></span>`;
-  $(value.querySelector('#loading2')).append(temp);
-  follow(checkProfile(), 'Following');
+   	follow(checkProfile(), 'Following');
 }
 
 function actionRetweet(event) {
@@ -138,12 +108,10 @@ function actionRetweet(event) {
    	var split = raw.split("aria-");
    	var id = split[1];
    	// ADD SPINNING BUTTON ICON
-    var icon = this.querySelector(".IconContainer");
-    icon.className += " spin";
     this.style = 'none';
-	  this.removeEventListener("mouseover", mouseOver);
-	  this.removeEventListener("mouseout", mouseOut);
-    this.removeEventListener("click", actionRetweet);
+	this.removeEventListener("mouseover", mouseOver);
+	this.removeEventListener("mouseout", mouseOut);
+	this.removeEventListener("click", actionRetweet);
    	tweet(id, 'Retweets');
 }
 
@@ -157,9 +125,7 @@ function actionFavorite(event) {
    	var split = raw.split("aria-");
    	var id = split[1];
    	// ADD SPINNING BUTTON ICON
-    var icon = this.querySelector(".IconContainer");
-    icon.className += " spin";
-   this.style = 'none';
+   	this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
 	this.removeEventListener("click", actionFavorite);
@@ -180,22 +146,24 @@ function highlight() {
 		for (var element of selected) {
 			if (element.style.outline == '')
 			{
-				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') ||
+				// Retweets
+				if (((element.getAttribute('class') == 'ProfileTweet-actionButton  js-actionButton js-actionRetweet') || 
 				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo js-actionButton js-actionRetweet')) && ($(element).css('display') == 'inline-block'))
 				{
 					element.style.outline = '2.5px solid blue';
 					element.style.backgroundColor = 'lightBlue';
-				  element.addEventListener("mouseover", mouseOver);
+				    element.addEventListener("mouseover", mouseOver);
 					element.addEventListener("mouseout", mouseOut);
-				  element.addEventListener("click", actionRetweet);
+				    element.addEventListener("click", actionRetweet);
 				}
-				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') ||
+				// Favorites
+				else if (((element.getAttribute('class') == 'ProfileTweet-actionButton js-actionButton js-actionFavorite') || 
 				    (element.getAttribute('class') == 'ProfileTweet-actionButtonUndo ProfileTweet-action--unfavorite u-linkClean js-actionButton js-actionFavorite')) &&
-				    ($(element).css('display') == 'inline-block'))
+				    ($(element).css('display') == 'inline-block') && !element.hasAttribute('checked'))
 				{
 					element.style.outline = '2.5px solid blue';
 					element.style.backgroundColor = 'lightBlue';
-				  element.addEventListener("mouseover", mouseOver);
+				    element.addEventListener("mouseover", mouseOver);
 					element.addEventListener("mouseout", mouseOut);
 					element.addEventListener("click", actionFavorite);
 				}
@@ -204,7 +172,7 @@ function highlight() {
 	}
 
     // Followers and Following from newsfeed page
-	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];
+	var lis = document.getElementsByClassName("ProfileCardStats-statList Arrange Arrange--bottom Arrange--equal")[0];  
 	if (lis != null)
 	{
 		lis = lis.getElementsByTagName("li");
@@ -240,8 +208,8 @@ function highlight() {
 		lis2 = lis2.getElementsByTagName("li");
 	    for (var k = 0; k < lis2.length; k++)
 		{
-			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') ||
-				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') ||
+			if (((lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following') || (lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers') || 
+				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--followers is-active') || 
 				(lis2[k].getAttribute('class') == 'ProfileNav-item ProfileNav-item--following is-active')) && (lis2[k].style.outline == ''))
 			{
 				lis2[k].style.outline = '1.5px solid blue';
@@ -260,8 +228,50 @@ function highlight() {
 		}
 	}
 }
-
+// Highlight the given page
 highlight();
+// Starts the mutation observer
+initiateObserver();
+// Starts check for unhighlight
+var observerInterval = setInterval(checkObserverStatus, 5000);
+
+// Checks if highlight is still active, if it isn't removes mutation observer and stops checking
+function checkObserverStatus()
+{
+	chrome.runtime.sendMessage({observerRequest: "GetObserver"},
+        function (response) {
+        	//console.log("This is check");
+        	//console.log(response.observerStatus);
+        	var connected = response.observerStatus;
+        	if (!connected)
+        	{
+        		if (observer != null)
+        		{
+        			clearInterval(observerInterval);
+        		 	observer.disconnect();
+        		 	observer = null;
+        		}
+        	}
+    });
+}
+// Starts the mutation observer that will check for new tweets that enter the timeline
+function initiateObserver()
+{
+	chrome.runtime.sendMessage({observerRequest: "SetObserver"},
+        function (response) {
+    });
+	// Find the Tweet stream of the Timeline
+	var target = document.querySelector('ol#stream-items-id.stream-items.js-navigable-stream');
+	if (target !== null) {
+		// Create an observer to listen for mutations in the Timeline
+		observer = new MutationObserver(highlight);
+		// Specify configuration options of the observer
+		var config = { attributes: true, childList: true, characterData: true };
+		// Pass in the target node and the observer options
+		observer.observe(target, config);
+	}
+}
+//~~~~~~~~~~~~~~~HIGHLIGHT ELEMENTS END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function modalContent(results, bot_score) {
   var lines = results.split('|');
