@@ -7,6 +7,12 @@ chrome.runtime.onMessage.addListener(threshold => {
 
 var checkedUsers = new Map();
 
+function stopPropagation(element) {
+	element.onclick = function(event) {
+		event.stopPropagation();
+	}
+}
+
 /**
  *	Adds a menu to the badge.
  *	@param {Object} drop - The dropdown menu of the badge.
@@ -17,6 +23,9 @@ function addBadgeMenu(drop, score, username) {
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
 	drop.appendChild(dropdownContent);
 	var aScore = document.createElement('span');
+	//aScore.classList.add('dropdown-link', 'inactive-link');
+	aScore.classList.add('description');
+	stopPropagation(aScore);
 	aScore.innerHTML = score;
 	dropdownContent.appendChild(aScore);
 	var ul = document.createElement('ul');
@@ -25,7 +34,8 @@ function addBadgeMenu(drop, score, username) {
 	var liBot = document.createElement('li');
 	ul.appendChild(liBot);
 	var buttBot = document.createElement('button');
-	buttBot.textContent = 'This user is a bot';
+	buttBot.classList.add('dropdown-link');
+	buttBot.textContent = 'Mark user as a bot';
 	liBot.appendChild(buttBot);
 	buttBot.onclick = function(){
 		chrome.storage.local.get({black: []}, function (items){
@@ -40,7 +50,8 @@ function addBadgeMenu(drop, score, username) {
 	var liNot = document.createElement('li');
 	ul.appendChild(liNot);
 	var buttNot = document.createElement('button');
-	buttNot.textContent = 'This user is not a bot';
+	buttNot.classList.add('dropdown-link');
+	buttNot.textContent = 'Mark user as not a bot';
 	liNot.appendChild(buttNot);
 	buttNot.onclick = function(){
 		chrome.storage.local.get({white: []}, function (items){
@@ -172,14 +183,14 @@ function processTweets(username, responseText) {
 	// 	badge.onclick = function(event) {
 	// 		event.stopPropagation();
 
-	// 		if (event.target.classList.contains("badge")) {
-	// 			if (event.target.src.includes("icon48.png")) {
-	// 				event.target.src = chrome.extension.getURL("icons/checked.png");
-	// 			} 
-	// 			else {
-	// 				event.target.src = chrome.extension.getURL("icons/icon48.png");
-	// 			}
-	// 		}
+	// 		// if (event.target.classList.contains("badge")) {
+	// 		// 	if (event.target.src.includes("icon48.png")) {
+	// 		// 		event.target.src = chrome.extension.getURL("icons/checked.png");
+	// 		// 	}
+	// 		// 	else {
+	// 		// 		event.target.src = chrome.extension.getURL("icons/icon48.png");
+	// 		// 	}
+	// 		// }
 	// 	}
 	// }
 
@@ -187,11 +198,21 @@ function processTweets(username, responseText) {
 		var screenName = tweets[i].getAttribute('data-screen-name');
 
 		if (screenName === username && tweets[i].getAttribute('bot-score') == '?') {
+
+			var score = '?';
+			var description = '?';
+
+			if (responseText) {
+				score = responseText.score;
+				description = responseText.description;
+			}
+
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
-			tweets[i].setAttribute('bot-score', responseText);
+			tweets[i].setAttribute('bot-score', score);
+
 
 			var description = responseText
 			var whitel = [];
@@ -216,26 +237,34 @@ function processTweets(username, responseText) {
 			else if (blackl.includes(username)) {
 				console.log("blacklist");
 			}*/
-			else if (responseText === 'bot') {
+			//else if (responseText === 'bot') {
+			if (description === 'bot') {
+
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
 				if (verified === null) {
 					badge.src = chrome.extension.getURL("icons/icon48.png");
 					addMask(tweets[i], false);
+
+					description = description + ': ' + score;
 				}
 				else {
 					badge.src = chrome.extension.getURL("icons/checked.png");
-					description = description + ' (verified)';
+					description = description + ': ' + score + ' (verified)';
 				}
 
 				//addClick(badge);
+				stopPropagation(badge);
 			}
-			else if (responseText === 'not') {
+			else if (description === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
 				//addClick(badge);
+				stopPropagation(badge);
+				description = description + ': ' + score;
 			}
 
 			var drop = tweets[i].querySelector('#drop');
+			drop.style.cursor = 'default';
 
 			addBadgeMenu(drop, description, username);
 		}
@@ -250,14 +279,257 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
-    	if (responseText === 'error') {
-    		checkedUsers.delete(username)
-    		processTweets(username, responseText);
-    	}
-    	else {
+    	if (responseText) {
     		checkedUsers.set(username, responseText);
     		processTweets(username, responseText);
     	}
+    	else {
+    		checkedUsers.delete(username)
+    		processTweets(username, responseText);
+    	}
     });
+}
+
+// TRANSFER FROM INJECT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+var tweets = document.querySelectorAll('div.tweet');
+$(document.body).append('<button id="myBtn">Open Modal</button>');
+
+var modal = document.createElement('div');
+modal.id = 'myModal';
+modal.classList.add('mod');
+document.body.appendChild(modal);
+
+var close = document.createElement('div');
+close.classList.add('PermalinkProfile-dismiss', 'modal-close-fixed');
+modal.appendChild(close);
+
+var closeIcon = document.createElement('span');
+closeIcon.id = 'clo';
+closeIcon.classList.add('Icon', 'Icon--close');
+close.appendChild(closeIcon)
+
+var con = document.createElement('div');
+con.classList.add('mod-content');
+modal.appendChild(con);
+
+var p = document.createElement('h1');
+var b = document.createElement('br');
+var textnode = document.createTextNode('Bot Detection Results');
+p.appendChild(textnode);
+con.appendChild(p);
+con.appendChild(b);
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementById("clo");
+
+btn.onclick = function(event) {
+    event.stopPropagation();
+    if (event.target.id = 'myBtn') {
+      modal.style.display = "block";
+    }
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+
+
+
+function modalContent(results, bot_score) {
+  var lines = results.split('|');
+  // bot user : score
+  var count = 0;
+  for (var index = 0; index < lines.length; index++) {
+    var line = lines[index].split(':');
+    var user = line[0];
+    var score = line[1];
+    if (score > bot_score) {
+      var p = document.createElement('a');
+      var s = document.createElement('span');
+      var b = document.createElement('br');
+      var textnode = document.createTextNode(user);
+      p.appendChild(textnode);
+      var textnodes = document.createTextNode('score: ' + score);
+      s.appendChild(textnodes);
+      s.setAttribute('style', 'margin-right:65%;float:right');
+      p.href = 'https://twitter.com/'+user;
+      con.appendChild(p);
+      con.appendChild(s);
+      con.appendChild(b);
+    }
+  }
+}
+
+// Check Retweets or Likes on a tweet
+function tweet(name, redir) {
+	var result;
+	console.log(`running tweet(${name}, ${redir})`);
+	chrome.runtime.sendMessage({
+        method: 'POST',
+        action: 'xhttp',
+        url: 'http://localhost:5000/check_post/' + redir,
+        data: JSON.stringify(name)
+    }, function(responseText) {
+      var arr = responseText.split('|');
+      // tweet heading
+      var h = document.createElement('h3');
+      var b = document.createElement('br');
+      var textnode = document.createTextNode('(' + redir + ') ' + name);
+      h.appendChild(textnode);
+      con.appendChild(b);
+      con.appendChild(h);
+      result = arr[0];
+      // insert into modal
+      if(result > 0) {
+        for (var index = 2; index < arr.length -1; index++) {
+          modalContent(arr[index], arr[1]);
+        }
+      }
+      else {
+        var p = document.createElement('p');
+        var b = document.createElement('br');
+        var textnode = document.createTextNode('No bots found');
+        p.appendChild(textnode);
+        con.appendChild(p);
+        con.appendChild(b);
+      }
+			console.log(`TWEET result: ${result}`);
+			if (result !== undefined) inject(result, name, redir);
+    });
+}
+
+// Check Followers or Following on a profile page or timeline
+function follow(name, redir) {
+	var result;
+	console.log(`running follow(${name}, ${redir})`);
+	chrome.runtime.sendMessage({
+        method: 'POST',
+        action: 'xhttp',
+        url: 'http://localhost:5000/follow/' + redir,
+        data: JSON.stringify(name)
+    }, function(responseText) {
+      var arr = responseText.split('|');
+      // tweet heading
+      var h = document.createElement('h3');
+      var b = document.createElement('br');
+      var textnode = document.createTextNode('(' + redir + ') ' + name);
+      h.appendChild(textnode);
+      con.appendChild(b);
+      con.appendChild(h);
+      result = arr[0];
+      // insert into modal
+      if(result > 0) {
+        for (var index = 2; index < arr.length -1; index++) {
+          modalContent(arr[index], arr[1]);
+        }
+      }
+      else {
+        var p = document.createElement('p');
+        var b = document.createElement('br');
+        var textnode = document.createTextNode('No bots found');
+        p.appendChild(textnode);
+        con.appendChild(p);
+        con.appendChild(b);
+      }
+			console.log(`FOLLOW result: ${result}`);
+			if (result !== undefined) inject(result, name ,redir);
+    });
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Front-End Inject
+function inject(val, tweetID, act) {
+	if (act === 'Retweets') {
+		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
+    var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .IconContainer');
+    stop.classList.remove('spin');
+    var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .IconContainer');
+    stop2.classList.remove('spin');
+		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
+    var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton');
+    if ( $(ele).css('display') == 'inline-block' ) {
+      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
+      var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
+      var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+    }
+    else {
+      var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+      var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+      var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+    }
+  }
+	else if (act === 'Likes') {
+		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
+    var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .IconContainer');
+    stop.classList.remove('spin');
+    var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .IconContainer');
+    stop2.classList.remove('spin');
+		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
+    var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton');
+    if ( $(ele).css('display') == 'inline-block' ) {
+      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
+      var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
+      var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+    }
+    else {
+      var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+      var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+      var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+    }
+  }
+	else if (act === 'Followers') {
+		var ur = window.location.pathname;
+		var prof = ur.split("/").slice(-1)[0];
+    removeElement('loading1');
+		// on profile
+		if (prof) {
+			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--followers .ProfileNav-stat');
+			var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
+			var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Followers</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+		}
+		// on home
+		else {
+			var ele = document.querySelector('.DashboardProfileCard-content .ProfileCardStats .ProfileCardStats-statList');
+			var li = ele.querySelectorAll('.ProfileCardStats-stat')[2];
+			var lio = li.querySelector('.ProfileCardStats-statLink .ProfileCardStats-statValue');
+			var old_val = lio.innerHTML;
+			var bots = lio.innerHTML = `<span class="ProfileCardStats-statValue" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+		}
+	}
+	else if (act === 'Following') {
+		var ur = window.location.pathname;
+		var prof = ur.split("/").slice(-1)[0];
+    removeElement('loading2');
+		// on profile
+		if (prof) {
+			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--following .ProfileNav-stat');
+			var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
+			var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Following</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+		}
+		// on home
+		else {
+			var ele = document.querySelector('.DashboardProfileCard-content .ProfileCardStats .ProfileCardStats-statList');
+			var li = ele.querySelectorAll('.ProfileCardStats-stat')[1];
+			var lio = li.querySelector('.ProfileCardStats-statLink .ProfileCardStats-statValue');
+			var old_val = lio.innerHTML;
+			var bots = lio.innerHTML = `<span class="ProfileCardStats-statValue" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+		}
+	}
 }
 

@@ -118,11 +118,27 @@
     width: auto;
 }
 
-.arrow-up {
-  width: 0; 
-  height: 0; 
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  
-  border-bottom: 5px solid black;
+/*span.dropdown-link.inactive-link {
+   cursor: default;
+}*/
+
+.description {
+    clear: both;
+    color: #66757f;
+/*    cursor: pointer;*/
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    float: none;
+    line-height: 20px;
+    margin: 0;
+    padding: 5px 20px;
+    position: relative;
+    white-space: nowrap;
+}
+
+#myBtn {
+  position: fixed;
+  top: 95%;
+  right: 10px;
 }

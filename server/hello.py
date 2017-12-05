@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import botometer
 import tweepy
@@ -92,27 +92,35 @@ def follow_helper(userIn, act):
             index = index + 1;
         results = list(bom.check_accounts_in(accounts))
     count = 0
-    # TODO FIX THIS
+    result = ''
     for score in results:
         if ('scores' in score[1]) :
+            result += str(score[0]) + ':' + str(score[1]['scores']['english']) + '|'
             print('FOLLOW()', score[0], score[1]['scores']['english'])
             if score[1]['scores']['english'] > bot_score:
                 count = count + 1
-    return str(count)
+    return str(count) + '|' + str(bot_score) + '|' + result
 
 ######
 
 def is_user_bot_helper(screen_name):
     # post = api.get_status(id)
     # user = '@' + post.user.screen_name
-    print(screen_name)
     user = '@' + screen_name
     result = bom.check_account(user)
 
-    if (result['scores']['english'] > bot_score):
-        return 'bot'
+    score = result['scores']['english']
+    description = '?'
+
+    print(screen_name, score, bot_score)
+
+    if (score > bot_score):
+        description = 'bot'
     else:
-        return 'not'
+        description = 'not'
+
+    return jsonify(score=score,
+                   description=description)
 
 def average_score_helper(user):
     # Create list of followers
@@ -150,12 +158,15 @@ def check_post(string):
         print('getting RETWEETS')
         bots = check_post_helper(request.get_json(), 'Retweets')
     count = 0
+    result = ''
     for bot in bots:
         if ('scores' in bot[1]):
             print('TWEET()', bot[0], bot[1]['scores']['english'])
+            result += str(bot[0]) + ':' + str(bot[1]['scores']['english']) + '|'
             if bot[1]['scores']['english'] > bot_score:
                 count = count + 1
-    return str(count)
+    print (result)
+    return str(count) + '|' + str(bot_score) + '|' + result
 # FOLLOW()
 @app.route("/follow/<string>", methods=['GET', 'POST'])
 @cross_origin(support_credentials=True)
@@ -193,4 +204,4 @@ def average_score():
     return average_score_helper(request.get_json())
 
 if __name__ == "__main__":
-    app.run(processes=3)
+    app.run()
