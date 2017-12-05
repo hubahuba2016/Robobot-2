@@ -1,7 +1,13 @@
 // Signal to light up icon
 chrome.runtime.sendMessage({type:'showPageAction'});
 
-var checkedUsers = {};
+var checkedUsers = new Map();
+
+function stopPropagation(element) {
+	element.onclick = function(event) {
+		event.stopPropagation();
+	}
+}
 
 /**
  *	Adds a menu to the badge.
@@ -13,6 +19,9 @@ function addBadgeMenu(drop, score) {
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
 	drop.appendChild(dropdownContent);
 	var aScore = document.createElement('span');
+	//aScore.classList.add('dropdown-link', 'inactive-link');
+	aScore.classList.add('description');
+	stopPropagation(aScore);
 	aScore.innerHTML = score;
 	dropdownContent.appendChild(aScore);
 	var ul = document.createElement('ul');
@@ -21,13 +30,15 @@ function addBadgeMenu(drop, score) {
 	var liBot = document.createElement('li');
 	ul.appendChild(liBot);
 	var buttBot = document.createElement('button');
-	buttBot.textContent = 'This user is a bot';
+	buttBot.classList.add('dropdown-link');
+	buttBot.textContent = 'Mark user as a bot';
 	liBot.appendChild(buttBot);
 
 	var liNot = document.createElement('li');
 	ul.appendChild(liNot);
 	var buttNot = document.createElement('button');
-	buttNot.textContent = 'This user is not a bot';
+	buttNot.classList.add('dropdown-link');
+	buttNot.textContent = 'Mark user as not a bot';
 	liNot.appendChild(buttNot);
 }
 
@@ -98,21 +109,21 @@ usernames: Array -> Array of usernames to process
 */
 function processUsers(usernames) {
 	for (username of usernames) {
-		if (!checkedUsers[username]) {
-			checkedUsers[username] = '?';
+		if (!checkedUsers.has(username)) {
+			checkedUsers.set(username, '?');
 			poster(username);
 		}
-		else if (checkedUsers[username] !== '?') {
-			processTweets(username, checkedUsers[username]);
+		else if (checkedUsers.get(username) !== '?') {
+			processTweets(username, checkedUsers.get(username));
 		}
 	}
 }
 
 function checkTimeline() {
-	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet');
+	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet, div.content-main .tweet');
 	var usernames = [];
 
-	var threshold = 0;
+	console.log(checkedUsers);
 
 	// for (var i = 0; i < tweets.length; i++) {
 	// 	if (!tweets[i].hasAttribute("bot-score")) {
@@ -146,54 +157,67 @@ if (target !== null) {
 function processTweets(username, responseText) {
 	var tweets = document.querySelectorAll('div.tweet');
 
-	function addClick(badge) {
-		badge.onclick = function(event) {
-			event.stopPropagation();
+	// function addClick(badge) {
+	// 	badge.onclick = function(event) {
+	// 		event.stopPropagation();
 
-			if (event.target.classList.contains("badge")) {
-				if (event.target.src.includes("icon48.png")) {
-					event.target.src = chrome.extension.getURL("icons/checked.png");
-				}
-				else {
-					event.target.src = chrome.extension.getURL("icons/icon48.png");
-				}
-			}
-		}
-	}
+	// 		// if (event.target.classList.contains("badge")) {
+	// 		// 	if (event.target.src.includes("icon48.png")) {
+	// 		// 		event.target.src = chrome.extension.getURL("icons/checked.png");
+	// 		// 	}
+	// 		// 	else {
+	// 		// 		event.target.src = chrome.extension.getURL("icons/icon48.png");
+	// 		// 	}
+	// 		// }
+	// 	}
+	// }
 
 	for (var i = 0; i < tweets.length; i++) {
 		var screenName = tweets[i].getAttribute('data-screen-name');
 
 		if (screenName === username && tweets[i].getAttribute('bot-score') == '?') {
+
+			var score = '?';
+			var description = '?';
+
+			if (responseText) {
+				score = responseText.score;
+				description = responseText.description;
+			}
+
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
-			tweets[i].setAttribute('bot-score', responseText);
-			checkedUsers[username] = responseText;
+			tweets[i].setAttribute('bot-score', score);
 
-			if (responseText === 'bot') {
+			if (description === 'bot') {
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
 
 				if (verified === null) {
 					badge.src = chrome.extension.getURL("icons/icon48.png");
+					addMask(tweets[i], false);
+
+					description = description + ': ' + score;
 				}
 				else {
 					badge.src = chrome.extension.getURL("icons/checked.png");
+					description = description + ': ' + score + ' (verified)';
 				}
 
-				addClick(badge);
-
-				addMask(tweets[i], false);
+				//addClick(badge);
+				stopPropagation(badge);
 			}
-			else if (responseText === 'not') {
+			else if (description === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
-				addClick(badge);
+				//addClick(badge);
+				stopPropagation(badge);
 			}
 
 			var drop = tweets[i].querySelector('#drop');
+			drop.style.cursor = 'default';
 
-			addBadgeMenu(drop, responseText);
+			addBadgeMenu(drop, description);
 		}
 	}
 }
@@ -206,6 +230,13 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
-    	processTweets(username, responseText);
+    	if (responseText) {
+    		checkedUsers.set(username, responseText);
+    		processTweets(username, responseText);
+    	}
+    	else {
+    		checkedUsers.delete(username)
+    		processTweets(username, responseText);
+    	}
     });
 }

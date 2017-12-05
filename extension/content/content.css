@@ -117,3 +117,22 @@
     height: auto;
     width: auto;
 }
+
+/*span.dropdown-link.inactive-link {
+   cursor: default;
+}*/
+
+.description {
+    clear: both;
+    color: #66757f;
+/*    cursor: pointer;*/
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    float: none;
+    line-height: 20px;
+    margin: 0;
+    padding: 5px 20px;
+    position: relative;
+    white-space: nowrap;
+}
