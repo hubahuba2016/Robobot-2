@@ -76,26 +76,58 @@ function mouseOut() {
     this.style.setProperty ("background-color", "lightblue", "important");
 }
 
+// var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--followers .ProfileNav-stat');
+// var old_val = ele.querySelector('.ProfileNav-value').innerHTML;
+// var bots = ele.innerHTML = `<span class="ProfileNav-label" aria-hidden="true">Followers</span> <span class="ProfileNav-value" data-is-compact="false">${old_val} <p class='js-tooltip' data-original-title="bot count" style='display:inline'>(${val})</p></span>`;
+
+function removeElement(elementId) {
+    // Removes an element from the document
+    var element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
+}
+
 function actionFollower(event) {
-   	//alert('1');
-    event.preventDefault();
+  //alert('1');
+  event.preventDefault();
 	event.stopPropagation();
 	this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
 	this.removeEventListener("click", actionFollower);
+  // add spins
+  var value = this.querySelector('.ProfileNav-stat .ProfileNav-value');
+  if (!value) {
+    value = this.querySelector('.ProfileCardStats-stat .ProfileCardStats-statValue');
+  }
+  var old_val = value.innerHTML;
+  var temp = document.createElement('img');
+  temp.className += 'spin';
+  temp.src = chrome.extension.getURL("icons/icon16.png");
+  value.innerHTML = `<span>${old_val} <span id='loading1'></span></span>`;
+  $(value.querySelector('#loading1')).append(temp);
 	follow(checkProfile(), 'Followers');
 }
 
 function actionFollowing(event) {
    	//alert('1');
-   	event.preventDefault();
+  event.preventDefault();
 	event.stopPropagation();
 	this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
 	this.removeEventListener("click", actionFollowing);
-   	follow(checkProfile(), 'Following');
+  // add spins
+  var value = this.querySelector('.ProfileNav-stat .ProfileNav-value');
+  if (!value) {
+    value = this.querySelector('.ProfileCardStats-stat .ProfileCardStats-statValue');
+  }
+  var old_val = value.innerHTML;
+  var temp = document.createElement('img');
+  temp.className += 'spin';
+  temp.src = chrome.extension.getURL("icons/icon16.png");
+  value.innerHTML = `<span>${old_val} <span id='loading2'></span></span>`;
+  $(value.querySelector('#loading2')).append(temp);
+  follow(checkProfile(), 'Following');
 }
 
 function actionRetweet(event) {
@@ -108,10 +140,12 @@ function actionRetweet(event) {
    	var split = raw.split("aria-");
    	var id = split[1];
    	// ADD SPINNING BUTTON ICON
+    var icon = this.querySelector(".IconContainer");
+    icon.className += " spin";
     this.style = 'none';
-	this.removeEventListener("mouseover", mouseOver);
-	this.removeEventListener("mouseout", mouseOut);
-	this.removeEventListener("click", actionRetweet);
+	  this.removeEventListener("mouseover", mouseOver);
+	  this.removeEventListener("mouseout", mouseOut);
+    this.removeEventListener("click", actionRetweet);
    	tweet(id, 'Retweets');
 }
 
@@ -125,13 +159,14 @@ function actionFavorite(event) {
    	var split = raw.split("aria-");
    	var id = split[1];
    	// ADD SPINNING BUTTON ICON
-   	this.style = 'none';
+    var icon = this.querySelector(".IconContainer");
+    icon.className += " spin";
+   this.style = 'none';
 	this.removeEventListener("mouseover", mouseOver);
 	this.removeEventListener("mouseout", mouseOut);
 	this.removeEventListener("click", actionFavorite);
    	tweet(id, 'Likes');
 }
-
 function highlight() {
 	var tweets = document.querySelectorAll('div.tweet');
 	var highlight = ['button.ProfileTweet-actionButton.js-actionButton.js-actionRetweet',
