@@ -47,13 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		slider.onchange = function() {
 			chrome.storage.local.set({'score': slider.value}, function(){});
 
-		 	/*chrome.runtime.sendMessage({
+		 	chrome.runtime.sendMessage({
 			method: 'POST',
 			action: 'xhttp',
 			url: 'http://localhost:5000/set_score',
 			data: JSON.stringify(slider.value)
 			}, function(responseText) {
-			});*/
+			});
 
 		 	var threshold = {'value': slider.value};
 		 	chrome.tabs.query({}, tabs => {
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function wlist() {
 		var wlist = document.getElementById('whitelist');
 		
-		chrome.storage.local.get('white', function(items){
+		chrome.storage.local.get({white: []}, function(items){
 			if (items.white) {
 				wlist.innerHTML = items.white;
 			}
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function blist() {
 		var	blist = document.getElementById('blacklist');
 
-		chrome.storage.local.get('black', function(items){
+		chrome.storage.local.get({black: []}, function(items){
 			if (items.black) {
 				blist.innerHTML = items.black;
 			}
@@ -92,9 +92,27 @@ document.addEventListener('DOMContentLoaded', function () {
 		chrome.storage.local.clear(function(){});
 	}
 
+	/*function openTab(evt, tabName) {
+    	var i, tabcontent, tablinks;
+    	tabcontent = document.getElementsByClassName("tabcontent");
+    	for (i = 0; i < tabcontent.length; i++) {
+        	tabcontent[i].style.display = "none";
+    	}
+    	tablinks = document.getElementsByClassName("tablinks");
+    	for (i = 0; i < tablinks.length; i++) {
+        	tablinks[i].className = tablinks[i].className.replace(" active", "");
+    	}
+    	document.getElementById(tabName).style.display = "block";
+    	evt.currentTarget.className += " active";
+	}*/
+
 	range();
 	wlist();
 	blist();
+	
+	//document.getElementById('main').addEventListener('click', openTab(event, 'Main'));
+	//document.getElementById('wl').addEventListener('click', openTab(event, 'Whitelist'));
+	//document.getElementById('bl').addEventListener('click', openTab(event, 'Blacklist'));
 	document.getElementById('please').addEventListener('click', testTest);
 	document.getElementById('clickme').addEventListener('click', inject);
 	document.getElementById('unclickme').addEventListener('click', undoHighlight);

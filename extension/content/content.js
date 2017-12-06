@@ -1,11 +1,39 @@
 // Signal to light up icon
 chrome.runtime.sendMessage({type:'showPageAction'});
-chrome.runtime.onMessage.addListener(threshold => {
+/*chrome.runtime.onMessage.addListener(threshold => {
 	var timeline = document.querySelector('.ProfileTimeline, .content-main');
 	timeline.setAttribute('bot-limit', threshold.value);
-});
+});*/
+
+/*chrome.storage.local.get('score', function(items) {
+var timeline = document.querySelector('.ProfileTimeline, .content-main');
+	if(items.score) {
+		timeline.setAttribute('bot-limit', items.score);
+	}
+
+	else {
+		timeline.setAttribute('bot-limit', 40);
+	}
+});*/
+
 
 var checkedUsers = new Map();
+
+//Get blacklist from chrome storage
+var bl = [];
+chrome.storage.local.get({black: []}, function(items){
+	if (items.black) {
+		bl = items.black;
+	}
+});
+
+//Get whitelist from chrome storage
+var wl = [];
+chrome.storage.local.get({white: []}, function(items){
+	if (items.white) {
+		wl = items.white;
+	}
+});
 
 function stopPropagation(element) {
 	element.onclick = function(event) {
@@ -38,12 +66,14 @@ function addBadgeMenu(drop, score, username) {
 	buttBot.textContent = 'Mark user as a bot';
 	liBot.appendChild(buttBot);
 	buttBot.onclick = function(){
-		chrome.storage.local.get({black: []}, function (items){
+		/*chrome.storage.local.get({black: []}, function (items){
 			var bl = items.black;
 			bl.push(username);
 			chrome.storage.local.set({black: bl}, function() {});
-		});
-
+		});*/
+		//console.log("before adding to b: " + bl);
+		bl.push(username);
+		chrome.storage.local.set({black: bl}, function() {});
 
 	 };
 
@@ -54,11 +84,8 @@ function addBadgeMenu(drop, score, username) {
 	buttNot.textContent = 'Mark user as not a bot';
 	liNot.appendChild(buttNot);
 	buttNot.onclick = function(){
-		chrome.storage.local.get({white: []}, function (items){
-			var wl = items.white;
-			wl.push(username);
-			chrome.storage.local.set({white: wl}, function() {});
-		});
+		wl.push(username);
+		chrome.storage.local.set({white: wl}, function() {});
 
 
 	 };
@@ -143,9 +170,11 @@ function processUsers(usernames) {
 
 function checkTimeline() {
 	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet, div.content-main .tweet');
+	//var tl = document.querySelector('.ProfileTimeline, .content-main');
 	var usernames = [];
 
-	console.log(checkedUsers);
+	//console.log(checkedUsers);
+	//console.log(tl.getAttribute('bot-limit'));
 
 	for (var i = 0; i < tweets.length; i++) {
 		if (!tweets[i].hasAttribute("bot-score")) {
@@ -155,6 +184,18 @@ function checkTimeline() {
 			usernames.push(screenName);
 			tweets[i].setAttribute('bot-score', '?');
 		}
+
+		/*else if (tweets[i].getAttribute('bot-score') < tl.getAttribute('bot-limit')) {
+				console.log(tweets[i].getAttribute('data-screen-name') + ' NOT A BOT');
+				//console.log("score: " + checkedUsers.get(usernames[i]));
+				//processTweets(usernames[i], checkedUsers.get(usernames[i]));
+		}
+
+		else {
+				console.log(tweets[i].getAttribute('data-screen-name') + ' IS A BOT');
+				//processTweets(usernames[i], checkedUsers.get(usernames[i]));
+
+		}*/
 	}
 
 	processUsers(usernames);
@@ -178,21 +219,7 @@ if (target !== null) {
 
 function processTweets(username, responseText) {
 	var tweets = document.querySelectorAll('div.tweet');
-
-	// function addClick(badge) {
-	// 	badge.onclick = function(event) {
-	// 		event.stopPropagation();
-
-	// 		// if (event.target.classList.contains("badge")) {
-	// 		// 	if (event.target.src.includes("icon48.png")) {
-	// 		// 		event.target.src = chrome.extension.getURL("icons/checked.png");
-	// 		// 	}
-	// 		// 	else {
-	// 		// 		event.target.src = chrome.extension.getURL("icons/icon48.png");
-	// 		// 	}
-	// 		// }
-	// 	}
-	// }
+	//var tl = document.querySelector('.ProfileTimeline, .content-main');
 
 	for (var i = 0; i < tweets.length; i++) {
 		var screenName = tweets[i].getAttribute('data-screen-name');
@@ -207,37 +234,32 @@ function processTweets(username, responseText) {
 				description = responseText.description;
 			}
 
+			/*if (score < tl.getAttribute('bot-limit')) {
+				console.log("hello?");
+				description = 'not';
+			}
+
+			else {
+				console.log("bueee");
+				description = 'bot';
+			}*/
+
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
 			tweets[i].setAttribute('bot-score', score);
-
-
-			//var description = responseText
-			/*var whitel = [];
-			var blackl = [];
-
-			chrome.storage.local.get('white', function(items){
-				if (items.white) {
-					whitel = items.white;
-				}
-			});
-
-			chrome.storage.local.get('black', function(items){
-				if (items.black) {
-					blackl = items.black;
-				}
-			});*/
-
-			/*if (whitel.includes(username)) {
-				console.log('whitelist');
+			console.log('process tweets');
+			//Check if username is in blacklist
+			if (bl.includes(username)) {
+				description = 'black';
 			}
 
-			else if (blackl.includes(username)) {
-				console.log("blacklist");
-			}*/
-			//else if (responseText === 'bot') {
+			//Check if username is in whitelist
+			if (wl.includes(username)) {
+				description = 'not';
+			}
+
 			if (description === 'bot') {
 
 				var verified = tweets[i].querySelector('span.Icon.Icon--verified');
@@ -256,6 +278,16 @@ function processTweets(username, responseText) {
 				//addClick(badge);
 				stopPropagation(badge);
 			}
+
+			else if (description == 'black') {
+				badge.src = chrome.extension.getURL("icons/icon48.png");
+				addMask(tweets[i], false);
+
+				description = 'bot: ' + score;
+
+				stopPropagation(badge);
+			}
+
 			else if (description === 'not') {
 				badge.src = chrome.extension.getURL("icons/checked.png");
 				//addClick(badge);
@@ -279,7 +311,7 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
-    	console.log(responseText);
+    	//console.log(responseText);
     	if (responseText) {
     		checkedUsers.set(username, responseText);
     		processTweets(username, responseText);
