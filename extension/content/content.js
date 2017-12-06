@@ -1,3 +1,8 @@
+/**
+*	Run server api functions
+*	Alter Twitter display and inject data
+**/
+
 // Signal to light up icon
 chrome.runtime.sendMessage({type:'showPageAction'});
 /*chrome.runtime.onMessage.addListener(threshold => {
@@ -19,6 +24,7 @@ var timeline = document.querySelector('.ProfileTimeline, .content-main');
 
 var checkedUsers = new Map();
 
+
 //Get blacklist from chrome storage
 var bl = [];
 chrome.storage.local.get({black: []}, function(items){
@@ -35,6 +41,9 @@ chrome.storage.local.get({white: []}, function(items){
 	}
 });
 
+
+// Prevent parent event activation
+
 function stopPropagation(element) {
 	element.onclick = function(event) {
 		event.stopPropagation();
@@ -42,10 +51,10 @@ function stopPropagation(element) {
 }
 
 /**
- *	Adds a menu to the badge.
- *	@param {Object} drop - The dropdown menu of the badge.
- *	@param {String} score - The bot score associated with the Tweet.
- */
+*	Adds a menu to the badge.
+*	@ param {Object} drop - The dropdown menu of the badge.
+*	@ param {String} score - The bot score associated with the Tweet.
+*/
 function addBadgeMenu(drop, score, username) {
 	var dropdownContent = document.createElement('div');
 	dropdownContent.classList.add('badge-content', 'dropdown-menu');
@@ -71,7 +80,7 @@ function addBadgeMenu(drop, score, username) {
 			bl.push(username);
 			chrome.storage.local.set({black: bl}, function() {});
 		});*/
-		//console.log("before adding to b: " + bl);
+
 		bl.push(username);
 		chrome.storage.local.set({black: bl}, function() {});
 
@@ -87,20 +96,18 @@ function addBadgeMenu(drop, score, username) {
 		wl.push(username);
 		chrome.storage.local.set({white: wl}, function() {});
 
-
-	 };
+	};
 }
 
-/*
-type: String -> indicates which badge icon is to be used
-tweet: Div -> the Tweet for which the badge is for
+/**
+*type: String -> indicates which badge icon is to be used
+*tweet: Div -> the Tweet for which the badge is for
 */
 function addBadge(type, tweet) {
 	// Create badge
 	var wrapper = document.createElement('div');
 	wrapper.classList.add('avatar', 'badge-wrapper');
 	wrapper.style.pointerEvents = 'none';
-
 
 	var drop = document.createElement('div');
 	drop.id = 'drop';
@@ -126,9 +133,9 @@ function addBadge(type, tweet) {
 	}
 }
 
-/*
-tweet: Div -> the Tweet for which the mask is for
-animate: Boolean -> indicates if the mask image should be animated
+/**
+*	tweet: Div -> the Tweet for which the mask is for
+*	animate: Boolean -> indicates if the mask image should be animated
 */
 function addMask(tweet, animate) {
 	// Create the mask
@@ -137,7 +144,6 @@ function addMask(tweet, animate) {
 	mask.classList.add('bot');
 	// Add mask to the Tweet
 	tweet.appendChild(mask);
-
 	// Create the icon
 	var image = document.createElement('img');
 	// Assign the correct icon to the icon
@@ -146,16 +152,15 @@ function addMask(tweet, animate) {
 	image.classList.add('center');
 	// Add the icon to the mask
 	mask.appendChild(image);
-
 	// Animate the icon if specified
 	if (animate) {
 		image.classList.add('spin');
 	}
 }
 
-/*
-usernames: Array -> Array of usernames to process
-*/
+/**
+*	usernames: Array -> Array of usernames to process
+**/
 function processUsers(usernames) {
 	for (username of usernames) {
 		if (!checkedUsers.has(username)) {
@@ -168,6 +173,9 @@ function processUsers(usernames) {
 	}
 }
 
+/**
+* Check all loaded tweets for bot and add appropriate badges
+**/
 function checkTimeline() {
 	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet, div.content-main .tweet');
 	//var tl = document.querySelector('.ProfileTimeline, .content-main');
@@ -197,7 +205,6 @@ function checkTimeline() {
 
 		}*/
 	}
-
 	processUsers(usernames);
 }
 
@@ -217,9 +224,14 @@ if (target !== null) {
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+/**
+* Add appropriate badges
+**/
 function processTweets(username, responseText) {
 	var tweets = document.querySelectorAll('div.tweet');
+
 	//var tl = document.querySelector('.ProfileTimeline, .content-main');
+
 
 	for (var i = 0; i < tweets.length; i++) {
 		var screenName = tweets[i].getAttribute('data-screen-name');
@@ -234,6 +246,7 @@ function processTweets(username, responseText) {
 				description = responseText.description;
 			}
 
+
 			/*if (score < tl.getAttribute('bot-limit')) {
 				console.log("hello?");
 				description = 'not';
@@ -245,6 +258,8 @@ function processTweets(username, responseText) {
 			}*/
 
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
+
+
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
@@ -255,10 +270,12 @@ function processTweets(username, responseText) {
 				description = 'black';
 			}
 
+
 			//Check if username is in whitelist
 			if (wl.includes(username)) {
 				description = 'not';
 			}
+
 
 			if (description === 'bot') {
 
@@ -303,8 +320,12 @@ function processTweets(username, responseText) {
 	}
 }
 
+/**
+* api call to check poster of tweet
+**/
 function poster(username) {
 	chrome.runtime.sendMessage({
+
         method: 'POST',
         action: 'xhttp',
         url: 'http://localhost:5000/is_user_bot',
@@ -321,215 +342,269 @@ function poster(username) {
     		processTweets(username, responseText);
     	}
     });
+
+		method: 'POST',
+		action: 'xhttp',
+		url: 'http://localhost:5000/is_user_bot',
+		data: JSON.stringify(username),
+	},
+	function(responseText) {
+		console.log(responseText);
+		if (responseText) {
+			checkedUsers.set(username, responseText);
+			processTweets(username, responseText);
+		}
+		else {
+			checkedUsers.delete(username)
+			processTweets(username, responseText);
+		}
+	});
 }
 
-// TRANSFER FROM INJECT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-var tweets = document.querySelectorAll('div.tweet');
-$(document.body).append('<button id="myBtn">Open Modal</button>');
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Section for Like/RT Follow/Follow, injection, modal
 
+// Add Bot Search Result button
+$(document.body).append(`<button id="myBtn"><span id='BSRicon'></span></button>`);
+// add bot icon to BSR button
+var value = document.body.querySelector('#myBtn');
+var temp = document.createElement('img');
+temp.src = chrome.extension.getURL("icons/icon48.png");
+value.innerHTML = `<span id='BSRicon'></span>`;
+$(value.querySelector('#BSRicon')).append(temp);
+
+// Modal initialization
 var modal = document.createElement('div');
 modal.id = 'myModal';
 modal.classList.add('mod');
 document.body.appendChild(modal);
 
+// close section of modal
 var close = document.createElement('div');
 close.classList.add('PermalinkProfile-dismiss', 'modal-close-fixed');
 modal.appendChild(close);
 
+// close button of modal
 var closeIcon = document.createElement('span');
 closeIcon.id = 'clo';
 closeIcon.classList.add('Icon', 'Icon--close');
 close.appendChild(closeIcon)
 
+// content of modal
 var con = document.createElement('div');
 con.classList.add('mod-content');
 modal.appendChild(con);
 
-var p = document.createElement('h1');
-var b = document.createElement('br');
+// Initialize modal contents
+var modalTitle = document.createElement('h1');
+var purple = document.createElement('a');
+var clearButton = document.createElement('button');
+var newLine = document.createElement('br');
+var searchContent = document.createElement('div');
+searchContent.id = 'modalContentDiv';
 var textnode = document.createTextNode('Bot Detection Results');
-p.appendChild(textnode);
-con.appendChild(p);
-con.appendChild(b);
+var textnodeButton = document.createTextNode('clear');
+modalTitle.appendChild(textnode);
+clearButton.appendChild(textnodeButton);
+clearButton.id = 'clear';
+purple.appendChild(clearButton);
+purple.style.float = 'right';
+con.appendChild(purple);
+con.appendChild(modalTitle);
+con.appendChild(newLine);
+con.appendChild(searchContent);
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Get the modal
 var modal = document.getElementById('myModal');
-
 // Get the button that opens the modal
 var btn = document.getElementById("myBtn");
-
+// Clear button in modal
+var cbtn = document.getElementById('clear');
 // Get the <span> element that closes the modal
 var span = document.getElementById("clo");
 
+// Open Modal
 btn.onclick = function(event) {
-    event.stopPropagation();
-    if (event.target.id = 'myBtn') {
-      modal.style.display = "block";
-    }
+	event.stopPropagation();
+	if (event.target.id = 'myBtn') {
+		modal.style.display = "block";
+	}
+}
+
+// Clear Search Results
+cbtn.onclick = function(event) {
+	if (event.target.id = 'clear') {
+		$(searchContent).empty();
+	}
 }
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
-    modal.style.display = "none";
+	modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
 }
 
-
-
-
-
+/**
+* Add Search Result info to modal content
+**/
 function modalContent(results, bot_score) {
-  var lines = results.split('|');
-  // bot user : score
-  var count = 0;
-  for (var index = 0; index < lines.length; index++) {
-    var line = lines[index].split(':');
-    var user = line[0];
-    var score = line[1];
-    if (score > bot_score) {
-      var p = document.createElement('a');
-      var s = document.createElement('span');
-      var b = document.createElement('br');
-      var textnode = document.createTextNode(user);
-      p.appendChild(textnode);
-      var textnodes = document.createTextNode('score: ' + score);
-      s.appendChild(textnodes);
-      s.setAttribute('style', 'margin-right:65%;float:right');
-      p.href = 'https://twitter.com/'+user;
-      con.appendChild(p);
-      con.appendChild(s);
-      con.appendChild(b);
-    }
-  }
+	var lines = results.split('|');
+	// bot user : score
+	var count = 0;
+	for (var index = 0; index < lines.length; index++) {
+		var line = lines[index].split(':');
+		var user = line[0];
+		var score = line[1];
+		// only add bots to results
+		if (score > bot_score) {
+			var p = document.createElement('a');
+			var s = document.createElement('span');
+			var b = document.createElement('br');
+			var textnode = document.createTextNode(user);
+			p.appendChild(textnode);
+			var textnodes = document.createTextNode('score: ' + score);
+			s.appendChild(textnodes);
+			s.setAttribute('style', 'margin-right:65%;float:right');
+			p.href = 'https://twitter.com/'+user;
+			searchContent.appendChild(p);
+			searchContent.appendChild(s);
+			searchContent.appendChild(b);
+		}
+	}
 }
 
-// Check Retweets or Likes on a tweet
+/**
+* Check Retweets or Likes on a tweet
+**/
 function tweet(name, redir) {
 	var result;
 	console.log(`running tweet(${name}, ${redir})`);
 	chrome.runtime.sendMessage({
-        method: 'POST',
-        action: 'xhttp',
-        url: 'http://localhost:5000/check_post/' + redir,
-        data: JSON.stringify(name)
-    }, function(responseText) {
-      var arr = responseText.split('|');
-      // tweet heading
-      var h = document.createElement('h3');
-      var b = document.createElement('br');
-      var textnode = document.createTextNode('(' + redir + ') ' + name);
-      h.appendChild(textnode);
-      con.appendChild(b);
-      con.appendChild(h);
-      result = arr[0];
-      // insert into modal
-      if(result > 0) {
-        for (var index = 2; index < arr.length -1; index++) {
-          modalContent(arr[index], arr[1]);
-        }
-      }
-      else {
-        var p = document.createElement('p');
-        var b = document.createElement('br');
-        var textnode = document.createTextNode('No bots found');
-        p.appendChild(textnode);
-        con.appendChild(p);
-        con.appendChild(b);
-      }
-			console.log(`TWEET result: ${result}`);
-			if (result !== undefined) inject(result, name, redir);
-    });
+		method: 'POST',
+		action: 'xhttp',
+		url: 'http://localhost:5000/check_post/' + redir,
+		data: JSON.stringify(name)
+	}, function(responseText) {
+		var arr = responseText.split('|');
+		// tweet heading
+		var h = document.createElement('h3');
+		var b = document.createElement('br');
+		var textnode = document.createTextNode('(' + redir + ') ' + name);
+		h.appendChild(textnode);
+		searchContent.appendChild(b);
+		searchContent.appendChild(h);
+		result = arr[0];
+		// insert into modal
+		if(result > 0) {
+			for (var index = 2; index < arr.length -1; index++) {
+				modalContent(arr[index], arr[1]);
+			}
+		}
+		else {
+			var p = document.createElement('p');
+			var b = document.createElement('br');
+			var textnode = document.createTextNode('No bots found');
+			p.appendChild(textnode);
+			searchContent.appendChild(p);
+			searchContent.appendChild(b);
+		}
+		console.log(`TWEET result: ${result}`);
+		if (result !== undefined) inject(result, name, redir);
+	});
 }
 
-// Check Followers or Following on a profile page or timeline
+/**
+* Check Followers or Following on a profile page or timeline
+**/
 function follow(name, redir) {
 	var result;
 	console.log(`running follow(${name}, ${redir})`);
 	chrome.runtime.sendMessage({
-        method: 'POST',
-        action: 'xhttp',
-        url: 'http://localhost:5000/follow/' + redir,
-        data: JSON.stringify(name)
-    }, function(responseText) {
-      var arr = responseText.split('|');
-      // tweet heading
-      var h = document.createElement('h3');
-      var b = document.createElement('br');
-      var textnode = document.createTextNode('(' + redir + ') ' + name);
-      h.appendChild(textnode);
-      con.appendChild(b);
-      con.appendChild(h);
-      result = arr[0];
-      // insert into modal
-      if(result > 0) {
-        for (var index = 2; index < arr.length -1; index++) {
-          modalContent(arr[index], arr[1]);
-        }
-      }
-      else {
-        var p = document.createElement('p');
-        var b = document.createElement('br');
-        var textnode = document.createTextNode('No bots found');
-        p.appendChild(textnode);
-        con.appendChild(p);
-        con.appendChild(b);
-      }
-			console.log(`FOLLOW result: ${result}`);
-			if (result !== undefined) inject(result, name ,redir);
-    });
+		method: 'POST',
+		action: 'xhttp',
+		url: 'http://localhost:5000/follow/' + redir,
+		data: JSON.stringify(name)
+	}, function(responseText) {
+		var arr = responseText.split('|');
+		// tweet heading
+		var h = document.createElement('h3');
+		var b = document.createElement('br');
+		var textnode = document.createTextNode('(' + redir + ') ' + name);
+		h.appendChild(textnode);
+		searchContent.appendChild(b);
+		searchContent.appendChild(h);
+		result = arr[0];
+		// insert into modal
+		if(result > 0) {
+			for (var index = 2; index < arr.length -1; index++) {
+				modalContent(arr[index], arr[1]);
+			}
+		}
+		else {
+			var p = document.createElement('p');
+			var b = document.createElement('br');
+			var textnode = document.createTextNode('No bots found');
+			p.appendChild(textnode);
+			searchContent.appendChild(p);
+			searchContent.appendChild(b);
+		}
+		console.log(`FOLLOW result: ${result}`);
+		if (result !== undefined) inject(result, name ,redir);
+	});
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Front-End Inject
 function inject(val, tweetID, act) {
 	if (act === 'Retweets') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
-    var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .IconContainer');
-    stop.classList.remove('spin');
-    var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .IconContainer');
-    stop2.classList.remove('spin');
+		var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .IconContainer');
+		stop.classList.remove('spin');
+		var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .IconContainer');
+		stop2.classList.remove('spin');
+		removeElement('loading3');
 		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
-    var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton');
-    if ( $(ele).css('display') == 'inline-block' ) {
-      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
-      var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
-      var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-    else {
-      var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
-      var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
-      var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-  }
+		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton');
+		if ( $(ele).css('display') == 'inline-block' ) {
+			ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButton .ProfileTweet-actionCount');
+			var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
+			var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+		}
+		else {
+			var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--retweet .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+			var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+			var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+		}
+	}
 	else if (act === 'Likes') {
 		var tw = document.querySelector('div.tweet[data-tweet-id="'+tweetID+'"]');
-    var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .IconContainer');
-    stop.classList.remove('spin');
-    var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .IconContainer');
-    stop2.classList.remove('spin');
-		// var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
-    var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton');
-    if ( $(ele).css('display') == 'inline-block' ) {
-      ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
-      var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
-      var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-    else {
-      var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
-      var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
-      var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
-    }
-  }
+		var stop = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .IconContainer');
+		stop.classList.remove('spin');
+		var stop2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .IconContainer');
+		stop2.classList.remove('spin');
+		removeElement('loading4');
+		var ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton');
+		if ( $(ele).css('display') == 'inline-block' ) {
+			ele = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButton .ProfileTweet-actionCount');
+			var old_val = ele.querySelector('.ProfileTweet-actionCount .ProfileTweet-actionCountForPresentation').innerHTML
+			var bots = ele.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+		}
+		else {
+			var ele2 = tw.querySelector('.content .stream-item-footer .ProfileTweet-actionList .ProfileTweet-action--favorite .ProfileTweet-actionButtonUndo .ProfileTweet-actionCount');
+			var old_val2 = ele2.querySelector('.ProfileTweet-actionCountForPresentation').innerHTML
+			var bots2 = ele2.innerHTML = `<span class="ProfileTweet-actionCountForPresentation" aria-hidden="true">${old_val2}</span> <button class='js-tooltip' data-original-title="bot count" id='myBtn2' style='display:inline'>(${val} detected) </button>`;
+		}
+	}
 	else if (act === 'Followers') {
 		var ur = window.location.pathname;
 		var prof = ur.split("/").slice(-1)[0];
-    removeElement('loading1');
+		removeElement('loading1');
 		// on profile
 		if (prof) {
 			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--followers .ProfileNav-stat');
@@ -548,7 +623,7 @@ function inject(val, tweetID, act) {
 	else if (act === 'Following') {
 		var ur = window.location.pathname;
 		var prof = ur.split("/").slice(-1)[0];
-    removeElement('loading2');
+		removeElement('loading2');
 		// on profile
 		if (prof) {
 			var ele = document.querySelector('.ProfileNav .ProfileNav-list .ProfileNav-item--following .ProfileNav-stat');
@@ -565,4 +640,3 @@ function inject(val, tweetID, act) {
 		}
 	}
 }
-

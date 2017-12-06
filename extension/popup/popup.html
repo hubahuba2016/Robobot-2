@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>Oto Boto</title>
-
 		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
+
 		<!--<div class="tab">
   			<button class="tablinks" id='main'>Main</button>
   			<button class="tablinks" id='wl'>Whitelist</button>
@@ -58,6 +58,24 @@
 		<p>LALALA: <span id="output"></span></p>
 		<button id='haha'>run</button>-->
 		<button id="please">clear</button>
+
+		<div class="headerBar">
+			<img src="../icons/robobotLogo.png" width="90px" height="30px">
+		</div>
+		<br/>
+		<div align="center">
+		    <label class="switch">
+	  			<input type="checkbox" id="highlightToggle">
+	  			<span class="toggler"></span>
+			</label>
+			<br/><br/>
+			<div id="slidecontainer">
+				<span id="score"></span>
+				<input type="range" min="0" max="100" value="40" class="slider" id="slideBar">
+			</div>
+			<br/>
+		</div>
+
 		<script src="popup.js"></script>
 	</body>
 

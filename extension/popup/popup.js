@@ -1,16 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-   getButtonStatus();
-   function inject() {
+	getButtonStatus();
+	function inject() {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	        // query the active tab, which will be only one tab
 			//and inject the script in it
 			changeButtonStatus();
-			//chrome.tabs.executeScript(tabs[0].id, {file: 'popup/undoHighlight.js'});
             chrome.tabs.executeScript(tabs[0].id, {file: 'popup/inject.js'});
         });
-  }
+	}
 
-   function undoHighlight() {
+    function undoHighlight() {
 	    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	        // query the active tab, which will be only one tab
 	        //and inject the script in it
@@ -18,7 +17,19 @@ document.addEventListener('DOMContentLoaded', function () {
 	        chrome.tabs.executeScript(tabs[0].id, {file: 'popup/undoHighlight.js'});
 	        setObserver()
 	    });
-  }
+	}
+
+	function toggled()
+	{
+		if(document.getElementById('highlightToggle').checked)
+		{
+			inject();
+		}
+		else
+		{
+			undoHighlight();
+		}
+	}
 
 
 	//for the slider
@@ -114,15 +125,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	//document.getElementById('wl').addEventListener('click', openTab(event, 'Whitelist'));
 	//document.getElementById('bl').addEventListener('click', openTab(event, 'Blacklist'));
 	document.getElementById('please').addEventListener('click', testTest);
-	document.getElementById('clickme').addEventListener('click', inject);
-	document.getElementById('unclickme').addEventListener('click', undoHighlight);
+	document.getElementById('highlightToggle').addEventListener('click', toggled);
 });
 
 // Simple returns the button status
 function getButtonStatus() {
 	    chrome.runtime.sendMessage({buttonRequest: "GetButton"},
 	        function (response) {
-	        	document.getElementById('clickme').disabled = response.buttonStatus;
+	        	document.getElementById('highlightToggle').checked = response.buttonStatus;
 	    });
 }
 
@@ -130,7 +140,7 @@ function getButtonStatus() {
 function changeButtonStatus() {
     chrome.runtime.sendMessage({buttonRequest: "ChangeButton"},
         function (response) {
-        	document.getElementById('clickme').disabled = response.buttonStatus;
+        	document.getElementById('highlightToggle').checked = response.buttonStatus;
     });
 }
 
@@ -148,7 +158,7 @@ chrome.runtime.onMessage.addListener( function(message,sender,callback)
     if(message.pageChange === true)
     {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        	document.getElementById('clickme').disabled = false;
+        	document.getElementById('highlightToggle').checked = false;
 	        chrome.tabs.executeScript(tabs[0].id, {file: 'popup/undoHighlight.js'});
 	    });
     }
