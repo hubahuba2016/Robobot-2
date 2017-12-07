@@ -71,8 +71,29 @@ function addBadgeMenu(drop, score, username) {
 	buttBot.textContent = 'Mark user as a bot';
 	liBot.appendChild(buttBot);
 	buttBot.onclick = function(){
-		bl.push(username);
-		chrome.storage.local.set({black: bl}, function() {});
+		var existOut = false;
+		var existIn = false;
+		var i;
+
+		for (i = 0; i < wl.length; i++) {
+			if (username.valueOf() === wl[i].valueOf()) {
+				existOut = true;
+			}
+		}
+
+		if (!existOut) {
+			for (var i = 0; i < bl.length; i++) {
+				if (username.valueOf() === bl[i].valueOf()) {
+					existIn = true;
+				}
+			}
+
+			if (!existIn) {
+			bl.push(username);
+			chrome.storage.local.set({black: bl}, function() {});
+			}
+		}
+	
 	 };
 
 	var liNot = document.createElement('li');
@@ -82,8 +103,29 @@ function addBadgeMenu(drop, score, username) {
 	buttNot.textContent = 'Mark user as not a bot';
 	liNot.appendChild(buttNot);
 	buttNot.onclick = function(){
-		wl.push(username);
-		chrome.storage.local.set({white: wl}, function() {});
+		var existOut = false;
+		var existIn = false;
+		var i;
+
+		for (i = 0; i < bl.length; i++) {
+			if (username.valueOf() === bl[i].valueOf()) {
+				existOut = true;
+			}
+		}
+
+		if (!existOut) {
+			for (i = 0; i < wl.length; i++) {
+				if (username.valueOf() === wl[i].valueOf()) {
+					existIn = true;
+				}
+			}
+
+			if (!existIn) {
+				wl.push(username);
+				chrome.storage.local.set({white: wl}, function() {});
+			}
+		}
+		
 	};
 }
 
