@@ -36,3 +36,5 @@ Oto Boto works by making use of a Flask server running in the background that in
 3. Start the Flask server with the command "flask run"
 4. Your Flask server is ready to use!
 
+Useful link for installing Flask: [Here!](http://flask.pocoo.org/docs/0.12/installation/)<br>
+Useful link for getting started with Flask: [Here!](http://flask.pocoo.org/docs/0.12/quickstart/)
