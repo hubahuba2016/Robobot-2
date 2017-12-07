@@ -26,3 +26,10 @@ Oto Boto works by making use of a Flask server running in the background that in
 3. s
 
 **Loading Chrome extension**
+1. Download this repository
+2. Open Chrome and click the menu icon in the top right portion of the window
+3. Go to More tools -> Extensions
+4. Then click "Load unpacked extension..."
+5. Navigate to the downloaded repository and select the Extension subfolder
+6. Make sure the enabled extension checkbox is selected
+7. Your extension is ready to use!
