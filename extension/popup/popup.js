@@ -126,6 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
     	evt.currentTarget.className += " active";
 	}
 
+	function reset() {
+		chrome.storage.local.clear(function(){});
+	}
 	
 	range();
 	wlist();
@@ -135,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	document.getElementById('wl').addEventListener('click', function() {openTab(event, 'Whitelist')});
 	document.getElementById('bl').addEventListener('click', function() {openTab(event, 'Blacklist')});
 	
+	document.getElementById('reset').addEventListener('click', reset);
 	document.getElementById('highlightToggle').addEventListener('click', toggled);
 });
 
