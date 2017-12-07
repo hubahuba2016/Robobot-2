@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		chrome.storage.local.get({white: []}, function(items){
 			if (items.white) {
 				var w = items.white;
-				blist.innerHTML = w.join(', ');
+				wlist.innerHTML = w.join(', ');
 			}
 		});
 	}
