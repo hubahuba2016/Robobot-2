@@ -19,17 +19,20 @@ Robobot provides the user with additional bot-detecting features whenever they a
 * And more...
 
 ## How do I use it?
-Oto Boto works by making use of a Flask server running in the background that interacts with the Chrome extension. 
-**Setting up Flask server**<br>
-1. s
-2. s
-3. s
-
+Oto Boto works by making use of a Flask server running in the background that interacts with the Chrome extension.<br><br> 
 **Loading Chrome extension**
 1. Download this repository
 2. Open Chrome and click the menu icon in the top right portion of the window
 3. Go to More tools -> Extensions
 4. Then click "Load unpacked extension..."
-5. Navigate to the downloaded repository and select the Extension subfolder
+5. Navigate to the downloaded repository and select the "Extension" subfolder
 6. Make sure the enabled extension checkbox is selected
 7. Your extension is ready to use!
+
+**Setting up Flask server (Mac)**<br>
+1. Navigate inside of the "Server" subfolder of this downloaded repository in the Terminal
+1. Make sure Flask is installed, if not use the command "pip install Flask"
+2. Set the environment variable with the command "export FLASK_APP=hello.py"
+3. Start the Flask server with the command "flask run"
+4. Your Flask server is ready to use!
+
