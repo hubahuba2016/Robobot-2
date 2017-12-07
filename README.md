@@ -1,4 +1,5 @@
-# Robobot
+_Disclaimer: This is an educational project to identify bot activity on Twitter._
+# Robobot: Oto Boto
 ![](/extension/icons/icon128.png)<br><br>
 _**A chrome extension to change the way you view your newsfeed**_
 ## What does it do?
@@ -15,6 +16,13 @@ Robobot provides the user with additional bot-detecting features whenever they a
 * Chrome popup state saved across page changes
 * Whitelist functionality to remove bot filtering of selected profile
 * Blacklist functionality to add bot filtering of selected profile
+* And more...
 
-## How does it work?
 ## How do I use it?
+Oto Boto works by making use of a Flask server running in the background that interacts with the Chrome extension. 
+**Setting up Flask server**<br>
+1. s
+2. s
+3. s
+
+**Loading Chrome extension**
