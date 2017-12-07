@@ -1,11 +1,10 @@
 body {
-     width: 300px;
+     width: 270px;
      height: auto;
      padding: 0px;
      border-radius: 5px;
      margin:0px !important;
 }
-
 
 /* Style the tab */
 div.tab {
@@ -14,7 +13,6 @@ div.tab {
     background-color: #f1f1f1;
 }
 
-/* Style the buttons inside the tab */
 div.tab button {
     background-color: inherit;
     float: left;
@@ -26,23 +24,22 @@ div.tab button {
     font-size: 17px;
 }
 
-/* Change background color of buttons on hover */
 div.tab button:hover {
     background-color: #ddd;
 }
 
-/* Create an active/current tablink class */
 div.tab button.active {
     background-color: #ccc;
 }
 
-/* Style the tab content */
 .tabcontent {
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
 
+/* Header at the top*/
 .headerBar {
   width: 100%;
   height: 30px;
@@ -51,41 +48,7 @@ div.tab button.active {
 
 }
 
-#slidecontainer {
-     width: 90%;
-}
-
-.slider {
-     -webkit-appearance: none;
-     width: 100%;
-     height: 8px;
-     border-radius: 5px;
-     background: #d3d3d3;
-     outline: none;
-     opacity: 0.7;
-     -webkit-transition: .2s;
-     transition: opacity .2s;
-}
-
-.slider:hover {
-     opacity: 1;
-}
-
-.slider::ms-fill-lower {
-     background: #fff;
-}
-
-.slider::-webkit-slider-thumb {
-     -webkit-appearance: none;
-     appearance: none;
-     width: 16px;
-     height: 16px;
-     border: 0;
-     background: url('../icons/icon16.png');
-     cursor: pointer;
-}
-
-
+/*Toggle button*/
 .switch {
   position: relative;
   display: inline-block;
@@ -131,4 +94,39 @@ input:checked + .toggler:before {
   -webkit-transform: translateX(41px);
   -ms-transform: translateX(41px);
   transform: translateX(41px);
+}
+
+/* Score changer slider*/
+#slidecontainer {
+     width: 90%;
+}
+
+.slider {
+     -webkit-appearance: none;
+     width: 100%;
+     height: 8px;
+     border-radius: 5px;
+     background: #d3d3d3;
+     outline: none;
+     opacity: 0.7;
+     -webkit-transition: .2s;
+     transition: opacity .2s;
+}
+
+.slider:hover {
+     opacity: 1;
+}
+
+.slider::ms-fill-lower {
+     background: #fff;
+}
+
+.slider::-webkit-slider-thumb {
+     -webkit-appearance: none;
+     appearance: none;
+     width: 16px;
+     height: 16px;
+     border: 0;
+     background: url('../icons/icon16.png');
+     cursor: pointer;
 }

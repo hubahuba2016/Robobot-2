@@ -5,21 +5,17 @@
 
 // Signal to light up icon
 chrome.runtime.sendMessage({type:'showPageAction'});
-/*chrome.runtime.onMessage.addListener(threshold => {
-	var timeline = document.querySelector('.ProfileTimeline, .content-main');
-	timeline.setAttribute('bot-limit', threshold.value);
-});*/
 
-/*chrome.storage.local.get('score', function(items) {
+chrome.storage.local.get('score', function(items) {
 var timeline = document.querySelector('.ProfileTimeline, .content-main');
 	if(items.score) {
-		timeline.setAttribute('bot-limit', items.score);
+		timeline.setAttribute('bot-limit', (items.score/100));
 	}
 
 	else {
-		timeline.setAttribute('bot-limit', 40);
+		timeline.setAttribute('bot-limit', 0.4);
 	}
-});*/
+});
 
 
 var checkedUsers = new Map();
@@ -75,15 +71,8 @@ function addBadgeMenu(drop, score, username) {
 	buttBot.textContent = 'Mark user as a bot';
 	liBot.appendChild(buttBot);
 	buttBot.onclick = function(){
-		/*chrome.storage.local.get({black: []}, function (items){
-			var bl = items.black;
-			bl.push(username);
-			chrome.storage.local.set({black: bl}, function() {});
-		});*/
-
 		bl.push(username);
 		chrome.storage.local.set({black: bl}, function() {});
-
 	 };
 
 	var liNot = document.createElement('li');
@@ -95,7 +84,6 @@ function addBadgeMenu(drop, score, username) {
 	buttNot.onclick = function(){
 		wl.push(username);
 		chrome.storage.local.set({white: wl}, function() {});
-
 	};
 }
 
@@ -178,11 +166,14 @@ function processUsers(usernames) {
 **/
 function checkTimeline() {
 	var tweets = document.querySelectorAll('div.ProfileTimeline .tweet, div.content-main .tweet');
-	//var tl = document.querySelector('.ProfileTimeline, .content-main');
+	var tl = document.querySelector('.ProfileTimeline, .content-main');
 	var usernames = [];
 
-	//console.log(checkedUsers);
-	//console.log(tl.getAttribute('bot-limit'));
+
+	chrome.runtime.onMessage.addListener(threshold => {
+		var timeline = document.querySelector('.ProfileTimeline, .content-main');
+		timeline.setAttribute('bot-limit', threshold.value);
+	});
 
 	for (var i = 0; i < tweets.length; i++) {
 		if (!tweets[i].hasAttribute("bot-score")) {
@@ -192,25 +183,13 @@ function checkTimeline() {
 			usernames.push(screenName);
 			tweets[i].setAttribute('bot-score', '?');
 		}
-
-		/*else if (tweets[i].getAttribute('bot-score') < tl.getAttribute('bot-limit')) {
-				console.log(tweets[i].getAttribute('data-screen-name') + ' NOT A BOT');
-				//console.log("score: " + checkedUsers.get(usernames[i]));
-				//processTweets(usernames[i], checkedUsers.get(usernames[i]));
-		}
-
-		else {
-				console.log(tweets[i].getAttribute('data-screen-name') + ' IS A BOT');
-				//processTweets(usernames[i], checkedUsers.get(usernames[i]));
-
-		}*/
 	}
 	processUsers(usernames);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Check of the Timeline
-setInterval(checkTimeline, 5000);
+setInterval(checkTimeline, 3000);
 // Find the Tweet stream of the Timeline
 var target = document.querySelector('ol#stream-items-id.stream-items.js-navigable-stream');
 //var target = document.querySelector('div[data-test-selector="ProfileTimeline"]');
@@ -229,8 +208,7 @@ if (target !== null) {
 **/
 function processTweets(username, responseText) {
 	var tweets = document.querySelectorAll('div.tweet');
-
-	//var tl = document.querySelector('.ProfileTimeline, .content-main');
+	var tl = document.querySelector('.ProfileTimeline, .content-main');
 
 
 	for (var i = 0; i < tweets.length; i++) {
@@ -246,25 +224,13 @@ function processTweets(username, responseText) {
 				description = responseText.description;
 			}
 
-
-			/*if (score < tl.getAttribute('bot-limit')) {
-				console.log("hello?");
-				description = 'not';
-			}
-
-			else {
-				console.log("bueee");
-				description = 'bot';
-			}*/
-
 			// var badge = tweets[i].querySelector('.stream-item-header .badge');
-
 
 			var badge = tweets[i].querySelector('#badge');
 			badge.classList.remove('spin');
 
 			tweets[i].setAttribute('bot-score', score);
-			console.log('process tweets');
+
 			//Check if username is in blacklist
 			if (bl.includes(username)) {
 				description = 'black';
@@ -332,7 +298,6 @@ function poster(username) {
         data: JSON.stringify(username),
     },
     function(responseText) {
-    	//console.log(responseText);
     	if (responseText) {
     		checkedUsers.set(username, responseText);
     		processTweets(username, responseText);
@@ -342,23 +307,6 @@ function poster(username) {
     		processTweets(username, responseText);
     	}
     });
-
-		method: 'POST',
-		action: 'xhttp',
-		url: 'http://localhost:5000/is_user_bot',
-		data: JSON.stringify(username),
-	},
-	function(responseText) {
-		console.log(responseText);
-		if (responseText) {
-			checkedUsers.set(username, responseText);
-			processTweets(username, responseText);
-		}
-		else {
-			checkedUsers.delete(username)
-			processTweets(username, responseText);
-		}
-	});
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -484,7 +432,6 @@ function modalContent(results, bot_score) {
 **/
 function tweet(name, redir) {
 	var result;
-	console.log(`running tweet(${name}, ${redir})`);
 	chrome.runtime.sendMessage({
 		method: 'POST',
 		action: 'xhttp',
@@ -514,7 +461,6 @@ function tweet(name, redir) {
 			searchContent.appendChild(p);
 			searchContent.appendChild(b);
 		}
-		console.log(`TWEET result: ${result}`);
 		if (result !== undefined) inject(result, name, redir);
 	});
 }
@@ -524,7 +470,6 @@ function tweet(name, redir) {
 **/
 function follow(name, redir) {
 	var result;
-	console.log(`running follow(${name}, ${redir})`);
 	chrome.runtime.sendMessage({
 		method: 'POST',
 		action: 'xhttp',
@@ -554,7 +499,6 @@ function follow(name, redir) {
 			searchContent.appendChild(p);
 			searchContent.appendChild(b);
 		}
-		console.log(`FOLLOW result: ${result}`);
 		if (result !== undefined) inject(result, name ,redir);
 	});
 }
